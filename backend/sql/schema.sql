@@ -14,19 +14,19 @@ CREATE TABLE IF NOT EXISTS users (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS follows (
-    follower BIGINT UNSIGNED NOT NULL,
-    followee BIGINT UNSIGNED NOT NULL,
+    follower_id BIGINT UNSIGNED NOT NULL,
+    followee_id BIGINT UNSIGNED NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_follows_followee
-        FOREIGN KEY (followee) REFERENCES users(id)
+        FOREIGN KEY (followee_id) REFERENCES users(id)
         ON DELETE CASCADE,
 
     CONSTRAINT fk_follows_follower
-        FOREIGN KEY (follower) REFERENCES users(id)
+        FOREIGN KEY (follower_id) REFERENCES users(id)
         ON DELETE CASCADE,
     
-    PRIMARY KEY (followee, follower)
+    PRIMARY KEY (followee_id, follower_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- POST DB

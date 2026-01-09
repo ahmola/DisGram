@@ -41,7 +41,7 @@ ERD에 따라 DB, 테이블 생성(IF NOT EXISTS)
     
 #### 4-2-1. JPA Entity (Domain Model)
 
-Base Entity(공통)
+Common Domain(공통)
 - **Base**
     - createdAt: LocalDateTime (@CreatedDate)
     - updatedAt: LocalDateTime (@LastModifiedDate)
@@ -160,15 +160,15 @@ Comment Service
 표준 응답 구조
 
     {
-        "status": "ERROR",
-        "code": "USER_NOT_FOUND",
+        "status": HttpStatus,
         "message": "No such user exists."
     }
 
     class ApiResponse<T> {
         private boolean success;
         private T data;
-        private Error error;
+        private HttpStatus status;
+        private String message;
     }
 
 ---

@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+package dev.ahmola.photogram.common_domain.proto;
+
+option java_multiple_files = true;
+option java_package = "dev.ahmola.photogram.common_domain.proto";
+option java_outer_classname = "PostProto";
+
+/*
+* Post gRPC
+*/
+// Service Definition
+service PostGrpcService {
+    rpc ReadPostByUserId (ReadPostByUserIdRequest) returns (ReadPostByUserIdResponse);
+    rpc ReadPostById (ReadPostByIdRequest) returns (ReadPostByIdResponse);
+    rpc ReadPostByCaption (ReadPostByCaptionRequest) returns (ReadPostByCaptionResponse);
+    rpc ReadPostByDate (ReadPostByDateRequest) returns (ReadPostByDateResponse);
+
+    rpc CreatePost (CreatePostRequest) returns (CreatePostResponse);
+
+    rpc UpdatePost (UpdatePostRequest) returns (UpdatePostResponse);
+
+    rpc DeletePost (DeletePostRequest) returns (DeletePostResponse);
+}
+
+
+// Message Definition
+message PostRequest {
+    int64 userId = 1;
+    string caption = 2;
+    repeated string postImageUrl = 3;
+}
+
+message PostResponse {
+    int64 id = 1;
+    int64 userId = 2;
+    string caption = 3;
+    string createdAt = 4;
+    repeated string postImagesUrl = 5;
+}
+
+// Read
+message ReadPostByUserIdRequest {
+    int64 userId = 1;
+}
+
+message ReadPostByUserIdResponse {
+    PostResponse post = 1;
+}
+
+message ReadPostByIdRequest {
+    int64 postId = 1;
+}
+
+message ReadPostByIdResponse {
+    PostResponse post = 1;
+}
+
+message ReadPostByCaptionRequest {
+    string caption = 1;
+}
+
+message ReadPostByCaptionResponse {
+    PostResponse post = 1;
+}
+
+message ReadPostByDateRequest {
+    string createdAt = 1;
+}
+
+message ReadPostByDateResponse {
+    PostResponse post = 1;
+}
+
+// Create
+message CreatePostRequest {
+    PostRequest post = 1;
+}
+
+message CreatePostResponse {
+    PostResponse post = 1;
+}
+
+// Update
+message UpdatePostRequest {
+    PostRequest post = 1;
+}
+
+message UpdatePostResponse {
+    PostResponse post = 1;
+}
+
+// Delete
+message DeletePostRequest {
+    int64 id = 1;
+}
+
+message DeletePostResponse {
+    int64 status = 1;
+    string message = 2;
+}
+
+/*
+* Like gRPC
+*/
+// Service Definition
+service LikeGrpcService {
+    rpc ReadLikeAmount (ReadLikeAmountRequest) returns (ReadLikeAmountResponse);
+    rpc ReadLikeInfo (ReadLikeInfoRequest) returns (ReadLikeInfoResponse);
+
+    rpc CreateLike (CreateLikeRequest) returns (CreateLikesResponse);
+
+    rpc DeleteLike (DeleteLikeRequest) returns (DeleteLikeResponse);
+}
+
+// Message Definition
+// Read
+message ReadLikeAmountRequest {
+    int64 postId = 1;
+}
+
+message ReadLikeAmountResponse {
+    int64 likes = 1;
+}
+
+message ReadLikeInfoRequest {
+    int64 postId = 1;
+}
+
+message ReadLikeInfoResponse {
+    repeated int64 userIds = 1;
+}
+
+// Create
+message CreateLikeRequest {
+    int64 postId = 1;
+    int64 userId = 2;
+}
+
+message CreateLikesResponse {
+    int64 postId = 1;
+    int64 userId = 2;
+    string createdAt = 3;
+}
+
+// Delete
+message DeleteLikeRequest {
+    int64 postId = 1;
+    int64 userId = 2;
+}
+
+message DeleteLikeResponse {
+    int64 status = 1;
+    string message = 2;
+}

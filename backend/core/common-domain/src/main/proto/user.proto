@@ -1,0 +1,142 @@
+syntax = "proto3";
+
+package dev.ahmola.photogram.common_domain.proto;
+
+option java_multiple_files = true;
+option java_package = "dev.ahmola.photogram.common_domain.proto";
+option java_outer_classname = "UserProto";
+
+/*
+* User gRPC
+*/
+// Service Definition
+service UserGrpcService {
+    rpc ReadUser (ReadUserRequest) returns (ReadUserResponse);
+    rpc ReadUserByUsername (ReadUserByUsernameRequest) returns (ReadUserByUsernameResponse);
+
+    rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+
+    rpc UpdateUser (UpdateUserRequest) returns (UpdateUserResponse);
+
+    rpc DeleteUser (DeleteUserRequest) returns (DeleteUserResponse);
+}
+
+message UserRequest {
+    string username = 1;
+    string password = 2;
+    string bio = 3;
+    string avatarUrl = 4;
+}
+
+message UserResponse {
+    int64 id = 1;
+    string username = 2;
+    string bio = 3;
+    string avatarUrl = 4;
+    string createdAt = 5;
+}
+
+// Message Definition
+// Read
+message ReadUserRequest {
+    int64 userId = 1;
+}
+
+message ReadUserResponse {
+    UserResponse userResponse = 1;
+}
+
+message ReadUserByUsernameRequest{
+    string username = 1;
+}
+
+message ReadUserByUsernameResponse{
+    repeated UserResponse userResponse = 1;
+}
+
+// Create
+message CreateUserRequest {
+    UserRequest userRequest = 1;
+}
+
+message CreateUserResponse {
+    UserResponse userResponse = 1;
+}
+
+// Update
+message UpdateUserRequest {
+   UserRequest userRequest = 1;
+}
+
+message UpdateUserResponse {
+    UserResponse userResponse = 1;
+}
+
+// Delete
+message DeleteUserRequest {
+    int64 id = 1;
+}
+
+message DeleteUserResponse {
+    int64 status = 1;
+    string message = 2;
+}
+
+/*
+* Follow gRPC
+*/
+// Service Definition
+service FollowGrpcService {
+    rpc ReadFollower (ReadFollowerRequest) returns (ReadFollowerResponse);
+    rpc ReadFollowee (ReadFolloweeRequest) returns (ReadFolloweeResponse);
+
+    rpc CreateFollow (CreateFollowRequest) returns (CreateFollowResponse);
+
+    rpc DeleteFollow (DeleteFollowRequest) returns (DeleteFollowResponse);
+}
+
+message FollowResponse {
+    int64 id = 1;
+    string username = 2;
+}
+
+// Message Definition
+// Read
+message ReadFollowerRequest {
+    int64 followeeId = 1;
+}
+
+message ReadFollowerResponse {
+    repeated FollowResponse  followers = 1;
+}
+
+message ReadFolloweeRequest {
+    int64 followerId = 1;
+}
+
+message ReadFolloweeResponse {
+    repeated FollowResponse followees = 1;
+}
+
+// Create
+message CreateFollowRequest {
+    int64 followerId = 1;
+    int64 followeeId = 2;
+}
+
+message CreateFollowResponse {
+    int64 followerId = 1;
+    int64 followeeId = 2;
+    string createdAt = 3;
+}
+
+// Delete
+message DeleteFollowRequest {
+    int64 followerId = 1;
+    int64 followeeId = 2;
+}
+
+message DeleteFollowResponse {
+    int64 status = 1;
+    string message = 2;
+}

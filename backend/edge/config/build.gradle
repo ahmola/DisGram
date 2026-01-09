@@ -38,3 +38,8 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+    archiveBaseName = 'config-server'
+    archiveVersion = '1.0.0'
+}

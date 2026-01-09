@@ -1,0 +1,10 @@
+rootProject.name = 'photogram'
+
+include 'edge:config'
+include 'edge:gateway'
+
+include 'core:common-domain'
+
+include 'core:services:user-service'
+include 'core:services:post-service'
+include 'core:services:comment-service'

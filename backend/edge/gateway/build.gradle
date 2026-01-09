@@ -44,3 +44,8 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+    archiveBaseName = 'gateway'
+    archiveVersion = '1.0.0'
+}

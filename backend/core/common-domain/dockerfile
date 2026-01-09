@@ -1,0 +1,9 @@
+FROM eclipse-temurin:17-jdk-jammy
+
+WORKDIR /app
+
+COPY ./build/libs/common-domain-0.0.1-SNAPSHOT.jar common-domain.jar
+
+ENTRYPOINT ["java", "-jar", "common-domain.jar"]
+
+EXPOSE 8084

@@ -1,53 +1,52 @@
 name: Build & Deploy for Dev (Local Action Runner)
 
 on:
-    push:
-        branches: ["dev"]
+  push:
+    branches: ["dev"]
 
 jobs:
-    build-app: 
-        strategy:
-            matrix:
-                include:
-                  - service: "config-server"
-                    path: "./backend/edge/config"
-                    port: 8888
+  build-app: 
+    strategy:
+      matrix:
+        include:
+          - service: "config-server"
+            path: "./backend/edge/config"
+            port: 8888
 
-                  - service: "gateway"
-                    path: "./backend/edge/gateway"
-                    port: 8080
-                  
-                #   - service: "user-service"
-                #     path: "./backend/core/services/user-service"
-                #     port: 8081
-                  
-                #   - service: "post-service"
-                #     path: "./backend/core/services/post-service"
-                #     port: 8082
-                
-                #   - service: "commnet-service"
-                #     path: "./backend/core/services/comment-service"
-                #     port: 8083
-                
-                #   - service: "common-domain"
-                #     path: "./backend/core/services/common-domain"
-                #     port: 8084
-                
-                  
-        uses: ./.github/workflows/build-spring-template.yml
-        with:
-            service: ${{matrix.service}}
-            path: ${{matrix.path}}
-            port: ${{matrix.port}}
-    
-    deploy:
-        runs-on: self-hosted
-        needs: build-app
-        steps:
-            - name: Checkout source
-              uses: actions/checkout@v4
+          - service: "gateway"
+            path: "./backend/edge/gateway"
+            port: 8080
+          
+        #   - service: "user-service"
+        #     path: "./backend/core/services/user-service"
+        #     port: 8081
+          
+        #   - service: "post-service"
+        #     path: "./backend/core/services/post-service"
+        #     port: 8082
+        
+        #   - service: "commnet-service"
+        #     path: "./backend/core/services/comment-service"
+        #     port: 8083
+        
+        #   - service: "common-domain"
+        #     path: "./backend/core/services/common-domain"
+        #     port: 8084
+            
+    uses: ./.github/workflows/build-spring-template.yml
+    with:
+      service: ${{matrix.service}}
+      path: ${{matrix.path}}
+      port: ${{matrix.port}}
+  
+  deploy:
+    runs-on: self-hosted
+    needs: build-app
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-            - name: Deploy with Docker Compose
-              run: |
-                docker compose -p photogram-backend -f docker-compose-backend-dev.yml down -v --remove-orphans
-                docker compose -p photogram-backend -f docker-compose-backend-dev.yml up -d
+      - name: Deploy with Docker Compose
+        run: |
+          docker compose -p photogram-backend -f docker-compose-backend-dev.yml down -v --remove-orphans
+          docker compose -p photogram-backend -f docker-compose-backend-dev.yml up -d

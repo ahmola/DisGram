@@ -1,0 +1,3 @@
+group = "dev.ahmola.photogram"
+version = "1.0.0"
+description = "photogram backend"
