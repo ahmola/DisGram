@@ -1,6 +1,21 @@
 FROM nginx:latest
 
-COPY conf.d/default.conf /etc/nginx/conf.d/default.conf
+# nginx configuration
+COPY conf.d /etc/nginx/conf.d
+
+# example html
 COPY index.html /usr/share/nginx/html/index.html
+
+# Static Resource Directory
+RUN mkdir -p /usr/share/nginx/html/static \
+    && mkdir -p /usr/share/nginx/html/static/images/avatar \
+    && mkdir -p /usr/share/nginx/html/static/images/post \
+    && mkdir -p /usr/share/nginx/html/static/videos/short \
+    && mkdir -p /usr/share/nginx/html/static/videos/long \
+    && mkdir -p /usr/share/nginx/html/static/css \
+    && mkdir -p /usr/share/nginx/html/static/js
+
+# example png
+COPY nginx.png /usr/share/nginx/html/static/images/nginx.png
 
 EXPOSE 80
