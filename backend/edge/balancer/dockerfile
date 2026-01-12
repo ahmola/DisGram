@@ -18,4 +18,4 @@ RUN mkdir -p /usr/share/nginx/html/static \
 # example png
 COPY nginx.png /usr/share/nginx/html/static/images/nginx.png
 
-EXPOSE 80
+EXPOSE 80 8081 8082
