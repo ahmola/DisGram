@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public abstract class BaseEntity {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedBy
+    @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 }
