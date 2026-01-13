@@ -1,0 +1,41 @@
+services:
+  balancer:
+    extra_hosts:
+      - "gateway-target:127.0.0.1"
+    build: balancer/.
+    container_name: balancer
+    restart: always
+    ports:
+      - "80:80"
+      - "8081:8081"
+      - "8082:8082"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    networks:
+      - edge
+
+  config-server:
+    build: config-server/.
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - edge
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+networks:
+  edge:
+    driver: bridge

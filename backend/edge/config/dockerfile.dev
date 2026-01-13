@@ -2,7 +2,7 @@ FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /app
 
-COPY config-0.0.1-SNAPSHOT.jar config.jar
+COPY ./build/libs/config-0.0.1-SNAPSHOT.jar config.jar
 
 ENTRYPOINT ["java", "-jar", "config.jar"]
 

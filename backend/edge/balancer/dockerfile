@@ -1,10 +1,11 @@
 FROM nginx:latest
 
 # nginx configuration
+RUN rm -f /etc/nginx/conf.d/default.conf
 COPY conf.d /etc/nginx/conf.d
 
 # example html
-COPY index.html /usr/share/nginx/html/index.html
+COPY index.html /usr/share/nginx/html/example/index.html
 
 # Static Resource Directory
 RUN mkdir -p /usr/share/nginx/html/static \
