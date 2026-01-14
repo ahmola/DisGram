@@ -3,9 +3,6 @@ package dev.ahmola.photogram.user_service.model;
 import dev.ahmola.photogram.common_domain.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter@Setter@ToString
