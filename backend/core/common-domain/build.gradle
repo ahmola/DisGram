@@ -50,6 +50,11 @@ tasks.named('test') {
 }
 
 bootJar {
-	archiveBaseName = 'common-domain'
-	archiveVersion = '1.0.0'
+//	archiveBaseName = 'common-domain'
+//	archiveVersion = '1.0.0'
+	enabled = false
+}
+
+jar {
+	enabled = true
 }
