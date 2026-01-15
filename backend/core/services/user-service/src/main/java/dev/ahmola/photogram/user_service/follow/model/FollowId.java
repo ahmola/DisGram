@@ -1,4 +1,4 @@
-package dev.ahmola.photogram.user_service.model;
+package dev.ahmola.photogram.user_service.follow.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

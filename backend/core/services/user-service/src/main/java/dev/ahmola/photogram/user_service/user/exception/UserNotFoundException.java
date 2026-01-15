@@ -1,4 +1,4 @@
-package dev.ahmola.photogram.user_service.error;
+package dev.ahmola.photogram.user_service.user.exception;
 
 import dev.ahmola.photogram.common_domain.error.ApiException;
 import dev.ahmola.photogram.common_domain.error.ErrorCode;

@@ -1,9 +1,8 @@
-package dev.ahmola.photogram.user_service.controller;
+package dev.ahmola.photogram.user_service.user.controller;
 
-import dev.ahmola.photogram.common_domain.dto.ApiResponse;
-import dev.ahmola.photogram.user_service.dto.UserRequest;
-import dev.ahmola.photogram.user_service.dto.UserResponse;
-import dev.ahmola.photogram.user_service.services.UserService;
+import dev.ahmola.photogram.user_service.user.dto.UserRequest;
+import dev.ahmola.photogram.user_service.user.dto.UserResponse;
+import dev.ahmola.photogram.user_service.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,14 +16,14 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping
-    public ResponseEntity<UserResponse> readUser(@RequestBody Long userId){
+    @GetMapping(params = "userId")
+    public ResponseEntity<UserResponse> readUser(@RequestParam Long userId){
         log.info("Read User by UserId : {}", userId.toString());
         return ResponseEntity.ok(userService.getUserByUserId(userId));
     }
 
-    @GetMapping
-    public ResponseEntity<UserResponse> readUserByUsername(@RequestBody String username){
+    @GetMapping(params = "username")
+    public ResponseEntity<UserResponse> readUserByUsername(@RequestParam String username){
         log.info("Read User by Username : {}", username);
         return ResponseEntity.ok(userService.getUserByUsername(username));
     }
@@ -32,7 +31,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest){
         log.info("Create User : {}", userRequest);
-        return ResponseEntity.created(userService.createUser(userRequest));
+        return new ResponseEntity<>(userService.createUser(userRequest), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -42,7 +41,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<ApiResponse> deleteUser(@RequestBody Long userId){
+    public ResponseEntity<Boolean> deleteUser(@RequestParam Long userId){
         log.info("Delete User : {}", userId.toString());
         return ResponseEntity.ok(userService.deleteUser(userId));
     }

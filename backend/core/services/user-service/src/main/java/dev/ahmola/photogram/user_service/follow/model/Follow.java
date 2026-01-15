@@ -1,10 +1,12 @@
-package dev.ahmola.photogram.user_service.model;
+package dev.ahmola.photogram.user_service.follow.model;
 
 import dev.ahmola.photogram.common_domain.domain.BaseEntity;
+import dev.ahmola.photogram.user_service.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Getter@Setter@ToString
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
