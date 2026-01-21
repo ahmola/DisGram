@@ -5,12 +5,11 @@ import (
 
 	"os"
 
-	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
-func db_init(){
+func db_init() *internal.CommentHandler {
 	// db connection (MySQL)
 	dsn := os.Getenv("DB_DSN")
 	db, _ := gorm.Open(mysql.Open(dsn), &gorm.Config{})
@@ -18,8 +17,8 @@ func db_init(){
 
 	// Dependency Injection
 	repo := &internal.CommentRepository{DB: db}
-	svc := &service.CommentService{Repo: repo}
-	hdl := &handler.CommentHandler{Service: svc}
+	svc := &internal.CommentService{Repo: repo}
+	hdl := &internal.CommentHandler{Service: svc}
 
 	return hdl
 }

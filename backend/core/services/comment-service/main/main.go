@@ -1,14 +1,12 @@
 package cmd
 
 import (
-	"services/comment-service/cmd"
-
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	// DB Connection, return handler
-	hdl := cmd.db_init()
+	hdl := db_init()
 
 	// Gin init
 	r := gin.Default()
