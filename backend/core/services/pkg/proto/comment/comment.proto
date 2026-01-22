@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package comment;
+
+// Directory for Go files
+option go_package = "services/pkg/proto/comment";
+
+// Message Definition
+message CommentRequest {
+    uint32 id = 1;
+    uint32 user_id = 2;
+    uint32 post_id = 3;
+    string content = 4;
+}
+
+message CommentResponse {
+    uint32 id = 1;
+    uint32 user_id = 2;
+    uint32 post_id = 3;
+    string content = 4;
+    string createdAt = 5;
+}
+
+message CommentRequestByPostID {
+    string post_id = 1;
+}
+
+message CommentListResponse {
+    repeated CommentResponse comments = 1;
+}
+
+message CommentRequestByID {
+    string id = 1;
+}
+
+message DeleteCommentResponse{
+    bool success = 1;
+}
+
+// Service Definition
+service CommetnService{
+    // Create
+    rpc CreateComment (CommentRequest) returns (CommentResponse);
+
+    // Read by PostID
+    rpc GetCommentsByPostID (CommentRequestByPostID) returns (CommentListResponse);
+
+    // Read by ID
+    rpc GetComment (CommentRequestByID) returns (CommentResponse);
+
+    // Update
+    rpc UpdateComment (CommentRequest) returns (CommentResponse);
+
+    // Delete
+    rpc DeleteComment (CommentRequestByID) returns (DeleteCommentResponse);
+}

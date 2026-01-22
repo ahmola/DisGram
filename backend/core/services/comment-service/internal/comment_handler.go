@@ -12,13 +12,13 @@ func (hdl *CommentHandler) CreateComment(c *gin.Context) {
 	var req CommentRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.Error(err)
 		return
 	}
 
 	res, err := hdl.Service.CreateComment(req)
 	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
+		c.Error(err)
 		return
 	}
 
@@ -30,7 +30,7 @@ func (hdl *CommentHandler) GetComments(c *gin.Context) {
 
 	comments, err := hdl.Service.GetCommentsByPostID(postID)
 	if err != nil {
-		c.JSON(500, gin.H{"error": err.Error()})
+		c.Error(err)
 		return
 	}
 
@@ -38,13 +38,42 @@ func (hdl *CommentHandler) GetComments(c *gin.Context) {
 }
 
 func (hdl *CommentHandler) GetCommentByID(c *gin.Context) {
+	commentID := c.Param("id")
 
+	comment, err := hdl.Service.GetCommentByID(commentID)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.JSON(200, comment)
 }
 
 func (hdl *CommentHandler) UpdateComment(c *gin.Context) {
+	var req CommentRequest
 
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.Error(err)
+		return
+	}
+
+	res, err := hdl.Service.UpdateComment(req)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.JSON(200, res)
 }
 
 func (hdl *CommentHandler) DeleteComment(c *gin.Context) {
+	commentID := c.Param("id")
 
+	isDone, err := hdl.Service.DeleteComment(commentID)
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	c.JSON(200, gin.H{"isDone": isDone})
 }

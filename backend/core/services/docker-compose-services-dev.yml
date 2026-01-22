@@ -1,0 +1,68 @@
+services:
+  mysql:
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+    image: mysql:8.2.0
+    container_name: mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - service-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysql", "-u", "root", "--password=1234"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+  # user-service:
+  #   build: ./user-service
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     DB_DSN: "root:root@tcp(mysql:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local"
+  #     GRPC_PORT: ":9090"
+  #   networks:
+  #     - service-network
+  
+  # follow-service:
+  #   build: ./follow-service
+  #   ports:
+  #     - "8084:8084"
+  #   environment:
+  #     DB_DSN: "root:root@tcp(mysql:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local"
+  #     GRPC_PORT: ":9090"
+  #   networks:
+  #     - service-network
+  
+  # post-service:
+  #   build: ./post-service
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     DB_DSN: "root:root@tcp(mysql:3306)/user_db?charset=utf8mb4&parseTime=True&loc=Local"
+  #     GRPC_PORT: ":9090"
+  #   networks:
+  #     - service-network
+
+  comment-service:
+    depends_on:
+      mysql:
+        condition: service_healthy
+    build: 
+      context: .
+      dockerfile: ./comment-service/Dockerfile
+    container_name: comment-service
+    ports:
+      - "8083:8083"
+    environment:
+      DB_DSN: "root:1234@tcp(mysql:3306)/comment?charset=utf8mb4&parseTime=True&loc=Local"
+      GRPC_PORT: ":9090"
+    networks:
+      - service-network
+
+networks:
+  service-network:
+    driver: bridge

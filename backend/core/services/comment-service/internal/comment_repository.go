@@ -1,15 +1,11 @@
 package internal
 
 import (
-	"gorm.io/gorm"
+	"services/pkg/common"
 )
 
 type CommentRepository struct {
-	DB *gorm.DB
-}
-
-func (r *CommentRepository) Save(comment *Comment) error {
-	return r.DB.Create(comment).Error
+	common.GormRepository[Comment]
 }
 
 func (r *CommentRepository) FindByPostID(postID uint) ([]Comment, error) {
