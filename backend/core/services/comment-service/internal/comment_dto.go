@@ -7,6 +7,7 @@ type CommentRequest struct {
 }
 
 type CommentResponse struct {
+	ID        uint   `json:"id"`
 	UserID    uint   `json:"userID"`
 	PostID    uint   `json:"postID"`
 	Content   string `json:"content"`

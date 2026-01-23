@@ -17,6 +17,7 @@ type Repository[T any] interface {
 }
 
 type GormRepository[T any] struct {
+	Repository[T]
 	DB *gorm.DB
 }
 

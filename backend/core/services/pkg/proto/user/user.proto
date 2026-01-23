@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package user;
+
+// Directory for Go files
+option go_package = "services/pkg/proto/user";
+
+// Message Definition
+message UserRequest {
+    string username = 1;
+    string email = 2;
+    string passwordHash = 3;
+    string bio = 4;
+    string avatarUrl = 5;
+}
+
+message UserResponse {
+    uint32 id = 1;
+    string username = 2;
+    string email = 3;
+    string passwordHash = 4;
+    string bio = 5;
+    string avatarUrl = 6;
+    string createdAt = 7;
+}
+
+// Service Definition
+service UserService {
+    // Create
+    rpc CreateUser (UserRequest) returns (UserResponse);
+
+    // Read
+    rpc GetUser (uint32) returns (UserResponse);
+
+    // Update
+    rpc UpdateUser (UserRequest) returns (UserResponse);
+
+    // Delete
+    rpc DeleteUser (uint32) returns (bool);
+
+}

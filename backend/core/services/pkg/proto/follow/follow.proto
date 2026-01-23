@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package follow;
+
+option go_package = "services/pkg/proto/follow
+
+// Message Definition
+message FollowRequest{
+
+}
+
+message FollowResponse{
+
+}
+
+message FollowListResponse{
+    repeated FollowResponse follows = 1;
+}
+
+// Service Definition
+service FollowService{
+
+}

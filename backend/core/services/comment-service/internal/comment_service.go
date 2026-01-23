@@ -28,7 +28,7 @@ func (svc *CommentService) CreateComment(req CommentRequest) (*CommentResponse, 
 
 func (svc *CommentService) GetCommentsByPostID(postID string) ([]*CommentResponse, error) {
 	var functionName = "GetCommentsByPostID"
-	id, err := ConvertStringToUint(postID)
+	id, err := common.ConvertStringToUint(postID)
 	if err != nil {
 		return nil, common.CommitError(serviceName, functionName,
 			"error occured during converting postID to uint: %w", err)
@@ -54,7 +54,7 @@ func (svc *CommentService) GetCommentsByPostID(postID string) ([]*CommentRespons
 
 func (svc *CommentService) GetCommentByID(commentID string) (*CommentResponse, error) {
 	var functionName = "GetCommentById"
-	id, err := ConvertStringToUint(commentID)
+	id, err := common.ConvertStringToUint(commentID)
 	if err != nil {
 		return nil, common.CommitError(serviceName, functionName,
 			"error occured during converting string to uint", err)
@@ -87,7 +87,7 @@ func (svc *CommentService) UpdateComment(req CommentRequest) (*CommentResponse, 
 
 func (svc *CommentService) DeleteComment(commentID string) (bool, error) {
 	var functionName = "DeleteComment"
-	id, err := ConvertStringToUint(commentID)
+	id, err := common.ConvertStringToUint(commentID)
 	if err != nil {
 		return false, common.CommitError(serviceName, functionName,
 			"error occured during converting string to uint", err)

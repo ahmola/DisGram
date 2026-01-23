@@ -3,13 +3,13 @@ package main
 import (
 	"log/slog"
 	"net"
-	"services/comment-service/internal"
-	"services/pkg/proto/comment"
+	"services/pkg/proto/user"
+	"services/user-service/internal"
 
 	"google.golang.org/grpc"
 )
 
-func grpc_init(hdl *internal.CommentHandler) {
+func grpc_init(hdl *internal.UserHandler) {
 	// gRPC Server Init
 	slog.Info("Start Listening gRPC Server")
 	listen, err := net.Listen("tcp", ":9090")
@@ -20,8 +20,8 @@ func grpc_init(hdl *internal.CommentHandler) {
 
 	slog.Info("gRPC Server Init")
 	grpcServer := grpc.NewServer()
-	comment.RegisterCommetnServiceServer(grpcServer, &internal.CommentGrpcHandler{
-		Svc: hdl.Service,
+	user.RegisterCommetnServiceServer(grpcServer, &internal.UserGrpcHandler{
+		Svc: hdl.Svc,
 	})
 	slog.Info("gRPC Server is ready")
 

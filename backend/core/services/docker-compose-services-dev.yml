@@ -57,6 +57,7 @@ services:
     container_name: comment-service
     ports:
       - "8083:8083"
+      - "9090:9090"
     environment:
       DB_DSN: "root:1234@tcp(mysql:3306)/comment?charset=utf8mb4&parseTime=True&loc=Local"
       GRPC_PORT: ":9090"

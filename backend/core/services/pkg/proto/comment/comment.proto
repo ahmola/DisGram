@@ -21,20 +21,8 @@ message CommentResponse {
     string createdAt = 5;
 }
 
-message CommentRequestByPostID {
-    string post_id = 1;
-}
-
 message CommentListResponse {
     repeated CommentResponse comments = 1;
-}
-
-message CommentRequestByID {
-    string id = 1;
-}
-
-message DeleteCommentResponse{
-    bool success = 1;
 }
 
 // Service Definition
@@ -43,14 +31,14 @@ service CommetnService{
     rpc CreateComment (CommentRequest) returns (CommentResponse);
 
     // Read by PostID
-    rpc GetCommentsByPostID (CommentRequestByPostID) returns (CommentListResponse);
+    rpc GetCommentsByPostID (string) returns (CommentListResponse);
 
     // Read by ID
-    rpc GetComment (CommentRequestByID) returns (CommentResponse);
+    rpc GetComment (string) returns (CommentResponse);
 
     // Update
     rpc UpdateComment (CommentRequest) returns (CommentResponse);
 
     // Delete
-    rpc DeleteComment (CommentRequestByID) returns (DeleteCommentResponse);
+    rpc DeleteComment (string) returns (bool);
 }

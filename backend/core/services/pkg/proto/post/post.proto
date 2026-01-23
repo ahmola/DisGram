@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package post;
+
+option go_package = "services/pkg/proto/post";
+
+// Message Definition
+message PostRequest{
+
+}
+
+message PostResponse{
+
+}
+
+message PostListResponse{
+    repeated PostResponse posts = 1;
+}
+
+// Service Definition
+service PostService {
+
+}

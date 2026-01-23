@@ -1,18 +1,9 @@
 package internal
 
 import (
-	"services/pkg/proto/comment"
-	"strconv"
+	// prevent namespace conflict
+	pb "services/pkg/proto/comment"
 )
-
-func ConvertStringToUint(str string) (uint, error) {
-	convPostID, err := strconv.ParseUint(str, 10, 64)
-	if err != nil {
-		return 0, err
-	}
-
-	return uint(convPostID), nil
-}
 
 func OriginToResponse(comment Comment) (*CommentResponse, error) {
 	res := &CommentResponse{
@@ -36,7 +27,7 @@ func RequestToOrigin(req CommentRequest) (*Comment, error) {
 }
 
 // grpc
-func grpcRequestToRequest(req comment.CommentRequest) *CommentRequest {
+func grpcRequestToRequest(req pb.CommentRequest) *CommentRequest {
 	res := &CommentRequest{
 		UserID:  uint(req.UserId),
 		PostID:  uint(req.PostId),
@@ -46,12 +37,29 @@ func grpcRequestToRequest(req comment.CommentRequest) *CommentRequest {
 	return res
 }
 
-func responseToGrpcResponse(res *CommentResponse) *comment.CommentResponse {
-	grpcRes := &comment.CommentResponse{
+func responseToGrpcResponse(res *CommentResponse) *pb.CommentResponse {
+	grpcRes := &pb.CommentResponse{
 		UserId:    uint32(res.UserID),
 		PostId:    uint32(res.PostID),
 		Content:   res.Content,
 		CreatedAt: res.CreatedAt,
+	}
+
+	return grpcRes
+}
+
+func commentListToGrpcResponse(comments []*CommentResponse) *pb.CommentListResponse {
+	grpcRes := &pb.CommentListResponse{}
+
+	for _, comment := range comments {
+		grpcRes.Comments = append(grpcRes.Comments, &pb.CommentResponse{
+			Id:        uint32(comment.ID),
+			UserId:    uint32(comment.UserID),
+			PostId:    uint32(comment.PostID),
+			Content:   comment.Content,
+			CreatedAt: comment.CreatedAt,
+		})
+
 	}
 
 	return grpcRes
