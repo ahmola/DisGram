@@ -8,8 +8,6 @@ type UserHandler struct {
 	Svc *UserService
 }
 
-var serviceName = "UserService"
-
 func (hdl *UserHandler) CreateUser(c *gin.Context) {
 	var req UserRequest
 
@@ -40,7 +38,7 @@ func (hdl *UserHandler) GetUserByID(c *gin.Context) {
 }
 
 func (hdl *UserHandler) GetUserByUsername(c *gin.Context) {
-	username := c.Param("username")
+	username := c.Query("username")
 
 	user, err := hdl.Svc.GetUserByUsername(username)
 	if err != nil {

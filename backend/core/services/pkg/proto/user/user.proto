@@ -24,18 +24,26 @@ message UserResponse {
     string createdAt = 7;
 }
 
+message UserRequestById {
+    string id = 1;
+}
+
+message DeleteUserResponse {
+    bool success = 1;
+}
+
 // Service Definition
 service UserService {
     // Create
     rpc CreateUser (UserRequest) returns (UserResponse);
 
     // Read
-    rpc GetUser (uint32) returns (UserResponse);
+    rpc GetUser (UserRequestById) returns (UserResponse);
 
     // Update
     rpc UpdateUser (UserRequest) returns (UserResponse);
 
     // Delete
-    rpc DeleteUser (uint32) returns (bool);
+    rpc DeleteUser (UserRequestById) returns (DeleteUserResponse);
 
 }

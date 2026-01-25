@@ -20,7 +20,7 @@ func grpc_init(hdl *internal.UserHandler) {
 
 	slog.Info("gRPC Server Init")
 	grpcServer := grpc.NewServer()
-	user.RegisterCommetnServiceServer(grpcServer, &internal.UserGrpcHandler{
+	user.RegisterUserServiceServer(grpcServer, &internal.UserGrpcHandler{
 		Svc: hdl.Svc,
 	})
 	slog.Info("gRPC Server is ready")

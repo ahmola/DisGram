@@ -23,8 +23,8 @@ func (h *CommentGrpcHandler) CreateComment(ctx context.Context, grpcReq *pb.Comm
 	return grpcRes, nil
 }
 
-func (h *CommentGrpcHandler) GetCommentsByPostID(ctx context.Context, grpcReq *pb.CommentRequestByPostID) (*pb.CommentListResponse, error) {
-	res, err := h.Svc.GetCommentsByPostID(grpcReq.PostId)
+func (h *CommentGrpcHandler) GetCommentsByPostID(ctx context.Context, grpcReq *pb.CommentRequestById) (*pb.CommentListResponse, error) {
+	res, err := h.Svc.GetCommentsByPostID(grpcReq.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +34,7 @@ func (h *CommentGrpcHandler) GetCommentsByPostID(ctx context.Context, grpcReq *p
 	return grpcRes, nil
 }
 
-func (h *CommentGrpcHandler) GetComment(ctx context.Context, req *pb.CommentRequestByID) (*pb.CommentResponse, error) {
+func (h *CommentGrpcHandler) GetComment(ctx context.Context, req *pb.CommentRequestById) (*pb.CommentResponse, error) {
 	res, err := h.Svc.GetCommentByID(req.Id)
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (h *CommentGrpcHandler) UpdateComment(ctx context.Context, req *pb.CommentR
 	return grpcRes, nil
 }
 
-func (h *CommentGrpcHandler) DeleteComment(ctx context.Context, req *pb.CommentRequestByID) (*pb.DeleteCommentResponse, error) {
+func (h *CommentGrpcHandler) DeleteComment(ctx context.Context, req *pb.CommentRequestById) (*pb.DeleteCommentResponse, error) {
 	res, err := h.Svc.DeleteComment(req.Id)
 
 	if err != nil {

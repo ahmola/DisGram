@@ -28,7 +28,7 @@ func (svc *UserService) CreateUser(req UserRequest) (*UserResponse, error) {
 
 func (svc *UserService) GetUserByID(userID string) (*UserResponse, error) {
 	var functionName = "GetUserByID"
-	id, err := ConvertStringToUint(userID)
+	id, err := common.ConvertStringToUint(userID)
 	if err != nil {
 		return nil, common.CommitError(serviceName, functionName,
 			"error occured during converting string to uint", err)
@@ -40,7 +40,7 @@ func (svc *UserService) GetUserByID(userID string) (*UserResponse, error) {
 			"erro occured during finding user by id", err)
 	}
 
-	return OriginToResponse(*user), nil
+	return OriginToResponse(*user)
 }
 
 func (svc *UserService) GetUserByUsername(username string) (*UserResponse, error) {
@@ -51,7 +51,7 @@ func (svc *UserService) GetUserByUsername(username string) (*UserResponse, error
 			"error occured during finding user by username", err)
 	}
 
-	return OriginToResponse(*user), nil
+	return OriginToResponse(*user)
 }
 
 func (svc *UserService) UpdateUser(req UserRequest) (*UserResponse, error) {
@@ -67,12 +67,12 @@ func (svc *UserService) UpdateUser(req UserRequest) (*UserResponse, error) {
 			"error occured during updating user", err)
 	}
 
-	return OriginToResponse(*user), nil
+	return OriginToResponse(*user)
 }
 
 func (svc *UserService) DeleteUser(userID string) (bool, error) {
 	var functionName = "DeleteUser"
-	id, err := ConvertStringToUint(userID)
+	id, err := common.ConvertStringToUint(userID)
 	if err != nil {
 		return false, common.CommitError(serviceName, functionName,
 			"error occured during converting string to uint", err)

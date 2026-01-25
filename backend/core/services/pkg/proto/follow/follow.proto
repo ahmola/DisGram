@@ -5,19 +5,43 @@ package follow;
 option go_package = "services/pkg/proto/follow
 
 // Message Definition
-message FollowRequest{
+message FollowRequestById{
+    string id = 1;
+}
 
+message FollowRequest{
+    uint32 followee_id = 1;
+    uint32 follower_id = 2;
 }
 
 message FollowResponse{
-
+    uint32 followee_id = 1;
+    uint32 follower_id = 2;
 }
 
-message FollowListResponse{
-    repeated FollowResponse follows = 1;
+message FollowerIdListResponse{
+    repeated uint32 followers = 1;
+}
+
+message FolloweeIdListResponse{
+    repeated uint32 followees = 1;
+}
+
+message DeleteCommentResponse {
+    bool success = 1;
 }
 
 // Service Definition
 service FollowService{
+    // Create
+    rpc CreateFollow (FollowRequest) returns (FollowResponse);
+
+    // Read
+    rpc GetFollow (FollowRequestById) returns (FollowResponse);
+    rpc GetFollowersByFolloweeID (FollowRequestById) returns (FollowerIdListResponse);
+    rpc GetFolloweesByFollowerID (FollowRequestById) returns (FolloweeIdListResponse);
+
+    // Delete
+    rpc DeleteFollow (FollowRequestById) returns (DeleteCommentResponse);
 
 }

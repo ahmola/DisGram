@@ -14,7 +14,7 @@ func grpc_init(hdl *internal.CommentHandler) {
 	slog.Info("Start Listening gRPC Server")
 	listen, err := net.Listen("tcp", ":9090")
 	if err != nil {
-		slog.Error("Failed to listen: ", "error", err)
+		slog.Error("ailed to listen: ", "Error", err)
 	}
 	slog.Info("Listening : ", listen.Addr().String())
 
@@ -26,6 +26,6 @@ func grpc_init(hdl *internal.CommentHandler) {
 	slog.Info("gRPC Server is ready")
 
 	if err := grpcServer.Serve(listen); err != nil {
-		slog.Error("failed to serve gRPC: ", "error", err)
+		slog.Error("failed to serve gRPC : ", "Error", err)
 	}
 }
