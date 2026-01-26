@@ -25,7 +25,7 @@ func (hdl *FollowHandler) CreateFollow(c *gin.Context) {
 }
 
 func (hdl *FollowHandler) GetFolloweesByFollowerID(c *gin.Context) {
-	followerID := c.Param("id")
+	followerID := c.Query("follower_id")
 
 	followees, err := hdl.Svc.GetFolloweesByFollowerID(followerID)
 	if err != nil {
@@ -37,7 +37,7 @@ func (hdl *FollowHandler) GetFolloweesByFollowerID(c *gin.Context) {
 }
 
 func (hdl *FollowHandler) GetFollowersByFolloweeID(c *gin.Context) {
-	followeeID := c.Param("id")
+	followeeID := c.Query("followee_id")
 
 	followers, err := hdl.Svc.GetFollowersByFolloweeID(followeeID)
 	if err != nil {

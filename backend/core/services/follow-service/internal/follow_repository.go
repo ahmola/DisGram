@@ -22,15 +22,15 @@ func (r *FollowRepository) FindFolloweesByFollowerID(followerID uint) ([]*uint, 
 	return followees, err
 }
 
-func (r *FollowRepository) FindFollowersByFolloweeID(followeeID uint) ([]uint, error) {
+func (r *FollowRepository) FindFollowersByFolloweeID(followeeID uint) ([]*uint, error) {
 	var follows []Follow
 	err := r.DB.Model(&Follow{}).
 		Where("followee_id = ?", followeeID).
 		Find(&follows).Error
 
-	followers := make([]uint, len(follows))
+	followers := make([]*uint, len(follows))
 	for i, follow := range follows {
-		followers[i] = follow.FollowerID
+		followers[i] = &follow.FollowerID
 	}
 
 	return followers, err

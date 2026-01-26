@@ -26,7 +26,7 @@ func main() {
 	slog.Info("Define Routes : v2")
 	{
 		v2.GET("/:id", hdl.GetCommentByID)
-		v2.GET("", hdl.GetComments)
+		v2.GET("/", hdl.GetComments)
 		v2.POST("/", hdl.CreateComment)
 		v2.PUT("/:id", hdl.UpdateComment)
 		v2.DELETE("/:id", hdl.DeleteComment)
@@ -37,5 +37,5 @@ func main() {
 
 	// Server Init
 	r.Run(":8080")
-	slog.Info("Server is ready")
+	slog.Info("Comment Service is ready")
 }

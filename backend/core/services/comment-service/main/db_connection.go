@@ -42,7 +42,7 @@ func db_init() *internal.CommentHandler {
 		slog.Error("Eventually DB Connection failed.")
 		os.Exit(1)
 	}
-	slog.Info("DB Connected! Start migrate")
+	slog.Info("DB Connected! Start migration")
 
 	if err := db.AutoMigrate(&internal.Comment{}); err != nil {
 		slog.Error("Migration Failed!", "error", err)

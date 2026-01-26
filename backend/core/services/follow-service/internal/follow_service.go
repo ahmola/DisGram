@@ -51,16 +51,16 @@ func (svc *FollowService) GetFolloweesByFollowerID(followerID string) ([]*uint, 
 			"error occured during converting string to uint", err)
 	}
 
-	followeewsId, err := svc.Repo.FindFolloweesByFollowerID(id)
+	followeewsID, err := svc.Repo.FindFolloweesByFollowerID(id)
 	if err != nil {
 		return nil, common.CommitError(serviceName, functionName,
 			"error occured during finding followees by followerID", err)
 	}
 
-	return followeewsId, nil
+	return followeewsID, nil
 }
 
-func (svc *FollowService) GetFollowersByFolloweeID(followeeID string) ([]uint, error) {
+func (svc *FollowService) GetFollowersByFolloweeID(followeeID string) ([]*uint, error) {
 	var functionName = "GetFollowersByFolloweeID"
 	id, err := common.ConvertStringToUint(followeeID)
 	if err != nil {
@@ -68,13 +68,13 @@ func (svc *FollowService) GetFollowersByFolloweeID(followeeID string) ([]uint, e
 			"error occured during converting string to uint", err)
 	}
 
-	followers, err := svc.Repo.FindFollowersByFolloweeID(id)
+	followersID, err := svc.Repo.FindFollowersByFolloweeID(id)
 	if err != nil {
 		return nil, common.CommitError(serviceName, functionName,
 			"error occured during finding followers by followeeID", err)
 	}
 
-	return followers, nil
+	return followersID, nil
 }
 
 func (svc *FollowService) DeleteFollow(followID string) (bool, error) {

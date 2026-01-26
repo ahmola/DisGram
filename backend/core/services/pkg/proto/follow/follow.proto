@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package follow;
 
-option go_package = "services/pkg/proto/follow
+option go_package = "services/pkg/proto/follow";
 
 // Message Definition
 message FollowRequestById{
@@ -19,15 +19,11 @@ message FollowResponse{
     uint32 follower_id = 2;
 }
 
-message FollowerIdListResponse{
-    repeated uint32 followers = 1;
+message IdListResponse{
+    repeated uint32 id_list = 1;
 }
 
-message FolloweeIdListResponse{
-    repeated uint32 followees = 1;
-}
-
-message DeleteCommentResponse {
+message DeleteFollowResponse {
     bool success = 1;
 }
 
@@ -38,10 +34,10 @@ service FollowService{
 
     // Read
     rpc GetFollow (FollowRequestById) returns (FollowResponse);
-    rpc GetFollowersByFolloweeID (FollowRequestById) returns (FollowerIdListResponse);
-    rpc GetFolloweesByFollowerID (FollowRequestById) returns (FolloweeIdListResponse);
+    rpc GetFollowersByFolloweeID (FollowRequestById) returns (IdListResponse);
+    rpc GetFolloweesByFollowerID (FollowRequestById) returns (IdListResponse);
 
     // Delete
-    rpc DeleteFollow (FollowRequestById) returns (DeleteCommentResponse);
+    rpc DeleteFollow (FollowRequestById) returns (DeleteFollowResponse);
 
 }
