@@ -12,7 +12,7 @@ type Post struct {
 
 type PostImage struct {
 	common.BaseEntity
-	PostId    uint   `json:"postId"`
+	PostID    uint   `json:"postId"`
 	FileKey   string `json:"fileKey" gorm:"not null;unique"`
 	Extension string `json:"extension" gorm:"not null"`
 	Url       string `json:"string" gorm:"not null"`
@@ -21,6 +21,6 @@ type PostImage struct {
 
 type Like struct {
 	common.BaseEntity
-	PostId  uint    `json:"postId"`
-	UserIds []*uint `json:"userIds" gorm:"not null"`
+	PostID uint `json:"postId" gorm:"not null"`
+	UserID uint `json:"userId" gorm:"not null"`
 }
