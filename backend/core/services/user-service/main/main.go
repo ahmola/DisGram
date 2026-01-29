@@ -3,6 +3,9 @@ package main
 import (
 	"log/slog"
 	"os"
+	"services/pkg/common"
+	"services/pkg/proto/user"
+	"services/user-service/internal"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,7 +17,7 @@ func main() {
 
 	// DB Connection, return handler
 	slog.Info("Start DB Connection")
-	hdl := db_init()
+	hdl := dbInit()
 	slog.Info("DB Connection Success")
 
 	// Gin init
@@ -33,9 +36,24 @@ func main() {
 	}
 
 	// gRPC Init
-	grpc_init(hdl)
+	grpcPort := os.Getenv("GRPC_PORT")
+	if grpcPort == "" {
+		grpcPort = ":9090"
+	}
+	listen, grpcServer := common.StartGrpcServer(grpcPort, "user")
+	user.RegisterUserServiceServer(grpcServer, &internal.UserGrpcHandler{
+		Svc: hdl.Svc,
+	})
+	slog.Info("User gRPC Server is ready")
+	if err := grpcServer.Serve(listen); err != nil {
+		slog.Error("faild to serve gRPC : ", "Error", err)
+	}
 
 	// Server Init
-	r.Run(":8080")
-	slog.Info("Server is ready")
+	port := os.Getenv("SERVER_PORT")
+	if port == "" {
+		port = ":8080"
+	}
+	r.Run(port)
+	slog.Info("User Server is ready")
 }

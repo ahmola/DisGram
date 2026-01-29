@@ -35,7 +35,7 @@ message DeleteCommentResponse {
 
 
 // Service Definition
-service CommetnService{
+service CommentService{
     // Create
     rpc CreateComment (CommentRequest) returns (CommentResponse);
 

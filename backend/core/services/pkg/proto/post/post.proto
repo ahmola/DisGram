@@ -5,19 +5,69 @@ package post;
 option go_package = "services/pkg/proto/post";
 
 // Message Definition
-message PostRequest{
+message RequestById{
+    string id = 1;
+}
 
+message ResponseByBoolean{
+    bool success = 1;
+}
+
+message PostImageRequest{
+    uint32 post_id = 1;
+    string file_key = 2;
+    string extension = 3;
+    string url = 4;
+    uint32 seq = 5;
+}
+
+message PostImageResponse{
+    uint32 id = 1;
+    uint32 post_id = 2;
+    string file_key = 3;
+    string extension = 4;
+    string url = 5;
+    uint32 seq = 6;
+}
+
+message LikeRequest{
+    uint32 post_id =1;
+    uint32 user_id = 2;
+}
+
+message LikeResponse{
+    uint32 id = 1;
+    uint32 post_id = 2;
+    uint32 user_id = 3;
+}
+
+message LikeListResponse{
+    repeated LikeResponse likes = 1;
+}
+
+message PostRequest{
+    uint32 user_id = 1;
+    string caption = 2;
+    repeated PostImageRequest post_images = 3;
 }
 
 message PostResponse{
-
-}
-
-message PostListResponse{
-    repeated PostResponse posts = 1;
+    uint32 id = 1;
+    uint32 user_id = 2;
+    string caption = 3;
+    repeated string post_image_urls = 4;
 }
 
 // Service Definition
 service PostService {
+    // post
+    rpc CreatePost(PostRequest) returns (PostResponse);
+    rpc GetPostByID(RequestById) returns (PostResponse);
+    rpc UpdatePost(PostRequest) returns (PostResponse);
+    rpc DeletePostByID(RequestById) returns (ResponseByBoolean);
 
+    // like
+    rpc CreateLike(LikeRequest) returns (ResponseByBoolean);
+    rpc GetAllLikesByID(RequestById) returns (LikeResponse);
+    rpc DeleteLike(RequestById) returns (ResponseByBoolean);
 }

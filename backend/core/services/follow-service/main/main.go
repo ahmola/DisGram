@@ -3,6 +3,9 @@ package main
 import (
 	"log/slog"
 	"os"
+	"services/follow-service/internal"
+	"services/pkg/common"
+	"services/pkg/proto/follow"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +16,7 @@ func main() {
 	slog.SetDefault(slog.New(logHandler))
 
 	slog.Info("Start DB Connection")
-	hdl := db_init()
+	hdl := dbInit()
 	slog.Info("DB Connection Success")
 
 	// Gin Init
@@ -30,9 +33,24 @@ func main() {
 	}
 
 	// gRPC Init
-	grpc_init(hdl)
-
-	r.Run(":8080")
+	grpcPort := os.Getenv("GRPC_PORT")
+	if grpcPort == "" {
+		grpcPort = ":9090"
+	}
+	listen, grpcServer := common.StartGrpcServer(grpcPort, "follow")
+	follow.RegisterFollowServiceServer(grpcServer, &internal.FollowGrpcHandler{
+		Svc: hdl.Svc,
+	})
+	slog.Info("Follow gRPC Server is ready")
+	if err := grpcServer.Serve(listen); err != nil {
+		slog.Error("faild to serve gRPC : ", "Error", err)
+	}
+	// Server Init
+	port := os.Getenv("SERVER_PORT")
+	if port == "" {
+		port = ":8080"
+	}
+	r.Run(port)
 	slog.Info("Follow Service is Ready")
 
 }

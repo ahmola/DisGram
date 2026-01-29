@@ -7,7 +7,10 @@
 package post
 
 import (
+	context "context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -15,12 +18,31 @@ import (
 // Requires gRPC-Go v1.64.0 or later.
 const _ = grpc.SupportPackageIsVersion9
 
+const (
+	PostService_CreatePost_FullMethodName      = "/post.PostService/CreatePost"
+	PostService_GetPostByID_FullMethodName     = "/post.PostService/GetPostByID"
+	PostService_UpdatePost_FullMethodName      = "/post.PostService/UpdatePost"
+	PostService_DeletePostByID_FullMethodName  = "/post.PostService/DeletePostByID"
+	PostService_CreateLike_FullMethodName      = "/post.PostService/CreateLike"
+	PostService_GetAllLikesByID_FullMethodName = "/post.PostService/GetAllLikesByID"
+	PostService_DeleteLike_FullMethodName      = "/post.PostService/DeleteLike"
+)
+
 // PostServiceClient is the client API for PostService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // Service Definition
 type PostServiceClient interface {
+	// post
+	CreatePost(ctx context.Context, in *PostRequest, opts ...grpc.CallOption) (*PostResponse, error)
+	GetPostByID(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*PostResponse, error)
+	UpdatePost(ctx context.Context, in *PostRequest, opts ...grpc.CallOption) (*PostResponse, error)
+	DeletePostByID(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*ResponseByBoolean, error)
+	// like
+	CreateLike(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*ResponseByBoolean, error)
+	GetAllLikesByID(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*LikeResponse, error)
+	DeleteLike(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*ResponseByBoolean, error)
 }
 
 type postServiceClient struct {
@@ -31,12 +53,91 @@ func NewPostServiceClient(cc grpc.ClientConnInterface) PostServiceClient {
 	return &postServiceClient{cc}
 }
 
+func (c *postServiceClient) CreatePost(ctx context.Context, in *PostRequest, opts ...grpc.CallOption) (*PostResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PostResponse)
+	err := c.cc.Invoke(ctx, PostService_CreatePost_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) GetPostByID(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*PostResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PostResponse)
+	err := c.cc.Invoke(ctx, PostService_GetPostByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) UpdatePost(ctx context.Context, in *PostRequest, opts ...grpc.CallOption) (*PostResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PostResponse)
+	err := c.cc.Invoke(ctx, PostService_UpdatePost_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) DeletePostByID(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*ResponseByBoolean, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ResponseByBoolean)
+	err := c.cc.Invoke(ctx, PostService_DeletePostByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) CreateLike(ctx context.Context, in *LikeRequest, opts ...grpc.CallOption) (*ResponseByBoolean, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ResponseByBoolean)
+	err := c.cc.Invoke(ctx, PostService_CreateLike_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) GetAllLikesByID(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*LikeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(LikeResponse)
+	err := c.cc.Invoke(ctx, PostService_GetAllLikesByID_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *postServiceClient) DeleteLike(ctx context.Context, in *RequestById, opts ...grpc.CallOption) (*ResponseByBoolean, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ResponseByBoolean)
+	err := c.cc.Invoke(ctx, PostService_DeleteLike_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PostServiceServer is the server API for PostService service.
 // All implementations must embed UnimplementedPostServiceServer
 // for forward compatibility.
 //
 // Service Definition
 type PostServiceServer interface {
+	// post
+	CreatePost(context.Context, *PostRequest) (*PostResponse, error)
+	GetPostByID(context.Context, *RequestById) (*PostResponse, error)
+	UpdatePost(context.Context, *PostRequest) (*PostResponse, error)
+	DeletePostByID(context.Context, *RequestById) (*ResponseByBoolean, error)
+	// like
+	CreateLike(context.Context, *LikeRequest) (*ResponseByBoolean, error)
+	GetAllLikesByID(context.Context, *RequestById) (*LikeResponse, error)
+	DeleteLike(context.Context, *RequestById) (*ResponseByBoolean, error)
 	mustEmbedUnimplementedPostServiceServer()
 }
 
@@ -47,6 +148,27 @@ type PostServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPostServiceServer struct{}
 
+func (UnimplementedPostServiceServer) CreatePost(context.Context, *PostRequest) (*PostResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreatePost not implemented")
+}
+func (UnimplementedPostServiceServer) GetPostByID(context.Context, *RequestById) (*PostResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetPostByID not implemented")
+}
+func (UnimplementedPostServiceServer) UpdatePost(context.Context, *PostRequest) (*PostResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdatePost not implemented")
+}
+func (UnimplementedPostServiceServer) DeletePostByID(context.Context, *RequestById) (*ResponseByBoolean, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeletePostByID not implemented")
+}
+func (UnimplementedPostServiceServer) CreateLike(context.Context, *LikeRequest) (*ResponseByBoolean, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateLike not implemented")
+}
+func (UnimplementedPostServiceServer) GetAllLikesByID(context.Context, *RequestById) (*LikeResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllLikesByID not implemented")
+}
+func (UnimplementedPostServiceServer) DeleteLike(context.Context, *RequestById) (*ResponseByBoolean, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteLike not implemented")
+}
 func (UnimplementedPostServiceServer) mustEmbedUnimplementedPostServiceServer() {}
 func (UnimplementedPostServiceServer) testEmbeddedByValue()                     {}
 
@@ -68,13 +190,168 @@ func RegisterPostServiceServer(s grpc.ServiceRegistrar, srv PostServiceServer) {
 	s.RegisterService(&PostService_ServiceDesc, srv)
 }
 
+func _PostService_CreatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PostRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).CreatePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_CreatePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).CreatePost(ctx, req.(*PostRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_GetPostByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestById)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).GetPostByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_GetPostByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).GetPostByID(ctx, req.(*RequestById))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_UpdatePost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PostRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).UpdatePost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_UpdatePost_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).UpdatePost(ctx, req.(*PostRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_DeletePostByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestById)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).DeletePostByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_DeletePostByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).DeletePostByID(ctx, req.(*RequestById))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_CreateLike_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LikeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).CreateLike(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_CreateLike_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).CreateLike(ctx, req.(*LikeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_GetAllLikesByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestById)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).GetAllLikesByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_GetAllLikesByID_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).GetAllLikesByID(ctx, req.(*RequestById))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _PostService_DeleteLike_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestById)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PostServiceServer).DeleteLike(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PostService_DeleteLike_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PostServiceServer).DeleteLike(ctx, req.(*RequestById))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PostService_ServiceDesc is the grpc.ServiceDesc for PostService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PostService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "post.PostService",
 	HandlerType: (*PostServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "pkg/proto/post/post.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreatePost",
+			Handler:    _PostService_CreatePost_Handler,
+		},
+		{
+			MethodName: "GetPostByID",
+			Handler:    _PostService_GetPostByID_Handler,
+		},
+		{
+			MethodName: "UpdatePost",
+			Handler:    _PostService_UpdatePost_Handler,
+		},
+		{
+			MethodName: "DeletePostByID",
+			Handler:    _PostService_DeletePostByID_Handler,
+		},
+		{
+			MethodName: "CreateLike",
+			Handler:    _PostService_CreateLike_Handler,
+		},
+		{
+			MethodName: "GetAllLikesByID",
+			Handler:    _PostService_GetAllLikesByID_Handler,
+		},
+		{
+			MethodName: "DeleteLike",
+			Handler:    _PostService_DeleteLike_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "pkg/proto/post/post.proto",
 }

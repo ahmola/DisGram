@@ -7,7 +7,7 @@ import (
 
 // gRPC Server Interface
 type CommentGrpcHandler struct {
-	pb.UnimplementedCommetnServiceServer
+	pb.UnimplementedCommentServiceServer
 	Svc *CommentService // buisiness logic
 }
 

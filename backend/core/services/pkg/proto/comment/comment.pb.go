@@ -320,7 +320,7 @@ const file_pkg_proto_comment_comment_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"1\n" +
 	"\x15DeleteCommentResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess2\xfd\x02\n" +
-	"\x0eCommetnService\x12B\n" +
+	"\x0eCommentService\x12B\n" +
 	"\rCreateComment\x12\x17.comment.CommentRequest\x1a\x18.comment.CommentResponse\x12P\n" +
 	"\x13GetCommentsByPostID\x12\x1b.comment.CommentRequestById\x1a\x1c.comment.CommentListResponse\x12C\n" +
 	"\n" +
@@ -350,16 +350,16 @@ var file_pkg_proto_comment_comment_proto_goTypes = []any{
 }
 var file_pkg_proto_comment_comment_proto_depIdxs = []int32{
 	1, // 0: comment.CommentListResponse.comments:type_name -> comment.CommentResponse
-	0, // 1: comment.CommetnService.CreateComment:input_type -> comment.CommentRequest
-	3, // 2: comment.CommetnService.GetCommentsByPostID:input_type -> comment.CommentRequestById
-	3, // 3: comment.CommetnService.GetComment:input_type -> comment.CommentRequestById
-	0, // 4: comment.CommetnService.UpdateComment:input_type -> comment.CommentRequest
-	3, // 5: comment.CommetnService.DeleteComment:input_type -> comment.CommentRequestById
-	1, // 6: comment.CommetnService.CreateComment:output_type -> comment.CommentResponse
-	2, // 7: comment.CommetnService.GetCommentsByPostID:output_type -> comment.CommentListResponse
-	1, // 8: comment.CommetnService.GetComment:output_type -> comment.CommentResponse
-	1, // 9: comment.CommetnService.UpdateComment:output_type -> comment.CommentResponse
-	4, // 10: comment.CommetnService.DeleteComment:output_type -> comment.DeleteCommentResponse
+	0, // 1: comment.CommentService.CreateComment:input_type -> comment.CommentRequest
+	3, // 2: comment.CommentService.GetCommentsByPostID:input_type -> comment.CommentRequestById
+	3, // 3: comment.CommentService.GetComment:input_type -> comment.CommentRequestById
+	0, // 4: comment.CommentService.UpdateComment:input_type -> comment.CommentRequest
+	3, // 5: comment.CommentService.DeleteComment:input_type -> comment.CommentRequestById
+	1, // 6: comment.CommentService.CreateComment:output_type -> comment.CommentResponse
+	2, // 7: comment.CommentService.GetCommentsByPostID:output_type -> comment.CommentListResponse
+	1, // 8: comment.CommentService.GetComment:output_type -> comment.CommentResponse
+	1, // 9: comment.CommentService.UpdateComment:output_type -> comment.CommentResponse
+	4, // 10: comment.CommentService.DeleteComment:output_type -> comment.DeleteCommentResponse
 	6, // [6:11] is the sub-list for method output_type
 	1, // [1:6] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name

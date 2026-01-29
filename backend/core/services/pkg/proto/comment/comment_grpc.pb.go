@@ -19,19 +19,19 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CommetnService_CreateComment_FullMethodName       = "/comment.CommetnService/CreateComment"
-	CommetnService_GetCommentsByPostID_FullMethodName = "/comment.CommetnService/GetCommentsByPostID"
-	CommetnService_GetComment_FullMethodName          = "/comment.CommetnService/GetComment"
-	CommetnService_UpdateComment_FullMethodName       = "/comment.CommetnService/UpdateComment"
-	CommetnService_DeleteComment_FullMethodName       = "/comment.CommetnService/DeleteComment"
+	CommentService_CreateComment_FullMethodName       = "/comment.CommentService/CreateComment"
+	CommentService_GetCommentsByPostID_FullMethodName = "/comment.CommentService/GetCommentsByPostID"
+	CommentService_GetComment_FullMethodName          = "/comment.CommentService/GetComment"
+	CommentService_UpdateComment_FullMethodName       = "/comment.CommentService/UpdateComment"
+	CommentService_DeleteComment_FullMethodName       = "/comment.CommentService/DeleteComment"
 )
 
-// CommetnServiceClient is the client API for CommetnService service.
+// CommentServiceClient is the client API for CommentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // Service Definition
-type CommetnServiceClient interface {
+type CommentServiceClient interface {
 	// Create
 	CreateComment(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error)
 	// Read by PostID
@@ -44,70 +44,70 @@ type CommetnServiceClient interface {
 	DeleteComment(ctx context.Context, in *CommentRequestById, opts ...grpc.CallOption) (*DeleteCommentResponse, error)
 }
 
-type commetnServiceClient struct {
+type commentServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewCommetnServiceClient(cc grpc.ClientConnInterface) CommetnServiceClient {
-	return &commetnServiceClient{cc}
+func NewCommentServiceClient(cc grpc.ClientConnInterface) CommentServiceClient {
+	return &commentServiceClient{cc}
 }
 
-func (c *commetnServiceClient) CreateComment(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error) {
+func (c *commentServiceClient) CreateComment(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CommentResponse)
-	err := c.cc.Invoke(ctx, CommetnService_CreateComment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CommentService_CreateComment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commetnServiceClient) GetCommentsByPostID(ctx context.Context, in *CommentRequestById, opts ...grpc.CallOption) (*CommentListResponse, error) {
+func (c *commentServiceClient) GetCommentsByPostID(ctx context.Context, in *CommentRequestById, opts ...grpc.CallOption) (*CommentListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CommentListResponse)
-	err := c.cc.Invoke(ctx, CommetnService_GetCommentsByPostID_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CommentService_GetCommentsByPostID_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commetnServiceClient) GetComment(ctx context.Context, in *CommentRequestById, opts ...grpc.CallOption) (*CommentResponse, error) {
+func (c *commentServiceClient) GetComment(ctx context.Context, in *CommentRequestById, opts ...grpc.CallOption) (*CommentResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CommentResponse)
-	err := c.cc.Invoke(ctx, CommetnService_GetComment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CommentService_GetComment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commetnServiceClient) UpdateComment(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error) {
+func (c *commentServiceClient) UpdateComment(ctx context.Context, in *CommentRequest, opts ...grpc.CallOption) (*CommentResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CommentResponse)
-	err := c.cc.Invoke(ctx, CommetnService_UpdateComment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CommentService_UpdateComment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *commetnServiceClient) DeleteComment(ctx context.Context, in *CommentRequestById, opts ...grpc.CallOption) (*DeleteCommentResponse, error) {
+func (c *commentServiceClient) DeleteComment(ctx context.Context, in *CommentRequestById, opts ...grpc.CallOption) (*DeleteCommentResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(DeleteCommentResponse)
-	err := c.cc.Invoke(ctx, CommetnService_DeleteComment_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, CommentService_DeleteComment_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// CommetnServiceServer is the server API for CommetnService service.
-// All implementations must embed UnimplementedCommetnServiceServer
+// CommentServiceServer is the server API for CommentService service.
+// All implementations must embed UnimplementedCommentServiceServer
 // for forward compatibility.
 //
 // Service Definition
-type CommetnServiceServer interface {
+type CommentServiceServer interface {
 	// Create
 	CreateComment(context.Context, *CommentRequest) (*CommentResponse, error)
 	// Read by PostID
@@ -118,168 +118,168 @@ type CommetnServiceServer interface {
 	UpdateComment(context.Context, *CommentRequest) (*CommentResponse, error)
 	// Delete
 	DeleteComment(context.Context, *CommentRequestById) (*DeleteCommentResponse, error)
-	mustEmbedUnimplementedCommetnServiceServer()
+	mustEmbedUnimplementedCommentServiceServer()
 }
 
-// UnimplementedCommetnServiceServer must be embedded to have
+// UnimplementedCommentServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedCommetnServiceServer struct{}
+type UnimplementedCommentServiceServer struct{}
 
-func (UnimplementedCommetnServiceServer) CreateComment(context.Context, *CommentRequest) (*CommentResponse, error) {
+func (UnimplementedCommentServiceServer) CreateComment(context.Context, *CommentRequest) (*CommentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateComment not implemented")
 }
-func (UnimplementedCommetnServiceServer) GetCommentsByPostID(context.Context, *CommentRequestById) (*CommentListResponse, error) {
+func (UnimplementedCommentServiceServer) GetCommentsByPostID(context.Context, *CommentRequestById) (*CommentListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetCommentsByPostID not implemented")
 }
-func (UnimplementedCommetnServiceServer) GetComment(context.Context, *CommentRequestById) (*CommentResponse, error) {
+func (UnimplementedCommentServiceServer) GetComment(context.Context, *CommentRequestById) (*CommentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetComment not implemented")
 }
-func (UnimplementedCommetnServiceServer) UpdateComment(context.Context, *CommentRequest) (*CommentResponse, error) {
+func (UnimplementedCommentServiceServer) UpdateComment(context.Context, *CommentRequest) (*CommentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateComment not implemented")
 }
-func (UnimplementedCommetnServiceServer) DeleteComment(context.Context, *CommentRequestById) (*DeleteCommentResponse, error) {
+func (UnimplementedCommentServiceServer) DeleteComment(context.Context, *CommentRequestById) (*DeleteCommentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteComment not implemented")
 }
-func (UnimplementedCommetnServiceServer) mustEmbedUnimplementedCommetnServiceServer() {}
-func (UnimplementedCommetnServiceServer) testEmbeddedByValue()                        {}
+func (UnimplementedCommentServiceServer) mustEmbedUnimplementedCommentServiceServer() {}
+func (UnimplementedCommentServiceServer) testEmbeddedByValue()                        {}
 
-// UnsafeCommetnServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to CommetnServiceServer will
+// UnsafeCommentServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to CommentServiceServer will
 // result in compilation errors.
-type UnsafeCommetnServiceServer interface {
-	mustEmbedUnimplementedCommetnServiceServer()
+type UnsafeCommentServiceServer interface {
+	mustEmbedUnimplementedCommentServiceServer()
 }
 
-func RegisterCommetnServiceServer(s grpc.ServiceRegistrar, srv CommetnServiceServer) {
-	// If the following call panics, it indicates UnimplementedCommetnServiceServer was
+func RegisterCommentServiceServer(s grpc.ServiceRegistrar, srv CommentServiceServer) {
+	// If the following call panics, it indicates UnimplementedCommentServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&CommetnService_ServiceDesc, srv)
+	s.RegisterService(&CommentService_ServiceDesc, srv)
 }
 
-func _CommetnService_CreateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentService_CreateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CommentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommetnServiceServer).CreateComment(ctx, in)
+		return srv.(CommentServiceServer).CreateComment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CommetnService_CreateComment_FullMethodName,
+		FullMethod: CommentService_CreateComment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommetnServiceServer).CreateComment(ctx, req.(*CommentRequest))
+		return srv.(CommentServiceServer).CreateComment(ctx, req.(*CommentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommetnService_GetCommentsByPostID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentService_GetCommentsByPostID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CommentRequestById)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommetnServiceServer).GetCommentsByPostID(ctx, in)
+		return srv.(CommentServiceServer).GetCommentsByPostID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CommetnService_GetCommentsByPostID_FullMethodName,
+		FullMethod: CommentService_GetCommentsByPostID_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommetnServiceServer).GetCommentsByPostID(ctx, req.(*CommentRequestById))
+		return srv.(CommentServiceServer).GetCommentsByPostID(ctx, req.(*CommentRequestById))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommetnService_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentService_GetComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CommentRequestById)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommetnServiceServer).GetComment(ctx, in)
+		return srv.(CommentServiceServer).GetComment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CommetnService_GetComment_FullMethodName,
+		FullMethod: CommentService_GetComment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommetnServiceServer).GetComment(ctx, req.(*CommentRequestById))
+		return srv.(CommentServiceServer).GetComment(ctx, req.(*CommentRequestById))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommetnService_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentService_UpdateComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CommentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommetnServiceServer).UpdateComment(ctx, in)
+		return srv.(CommentServiceServer).UpdateComment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CommetnService_UpdateComment_FullMethodName,
+		FullMethod: CommentService_UpdateComment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommetnServiceServer).UpdateComment(ctx, req.(*CommentRequest))
+		return srv.(CommentServiceServer).UpdateComment(ctx, req.(*CommentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CommetnService_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _CommentService_DeleteComment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CommentRequestById)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(CommetnServiceServer).DeleteComment(ctx, in)
+		return srv.(CommentServiceServer).DeleteComment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: CommetnService_DeleteComment_FullMethodName,
+		FullMethod: CommentService_DeleteComment_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CommetnServiceServer).DeleteComment(ctx, req.(*CommentRequestById))
+		return srv.(CommentServiceServer).DeleteComment(ctx, req.(*CommentRequestById))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// CommetnService_ServiceDesc is the grpc.ServiceDesc for CommetnService service.
+// CommentService_ServiceDesc is the grpc.ServiceDesc for CommentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var CommetnService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "comment.CommetnService",
-	HandlerType: (*CommetnServiceServer)(nil),
+var CommentService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "comment.CommentService",
+	HandlerType: (*CommentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "CreateComment",
-			Handler:    _CommetnService_CreateComment_Handler,
+			Handler:    _CommentService_CreateComment_Handler,
 		},
 		{
 			MethodName: "GetCommentsByPostID",
-			Handler:    _CommetnService_GetCommentsByPostID_Handler,
+			Handler:    _CommentService_GetCommentsByPostID_Handler,
 		},
 		{
 			MethodName: "GetComment",
-			Handler:    _CommetnService_GetComment_Handler,
+			Handler:    _CommentService_GetComment_Handler,
 		},
 		{
 			MethodName: "UpdateComment",
-			Handler:    _CommetnService_UpdateComment_Handler,
+			Handler:    _CommentService_UpdateComment_Handler,
 		},
 		{
 			MethodName: "DeleteComment",
-			Handler:    _CommetnService_DeleteComment_Handler,
+			Handler:    _CommentService_DeleteComment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
