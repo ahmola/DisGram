@@ -54,7 +54,7 @@ func main() {
 	user.RegisterUserServiceServer(grpcServer, &internal.UserGrpcHandler{
 		Svc: hdl.Svc,
 	})
-	slog.Info("gRPC Init success", "addr", listen.Addr().String(), "info", grpcServer.GetServiceInfo())
+	slog.Info("gRPC Init success", "addr", listen.Addr().String())
 
 	// Run gRPC by go Routine(Async)
 	common.RunGrpcWithGoRoutine(listen, grpcServer)
