@@ -1,0 +1,9 @@
+basePath: /api/v2
+host: localhost:8083
+info:
+  contact: {}
+  description: API built with Gin
+  title: Post API
+  version: "2.0"
+paths: {}
+swagger: "2.0"

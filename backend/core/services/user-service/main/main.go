@@ -8,8 +8,18 @@ import (
 	"services/user-service/internal"
 
 	"github.com/gin-gonic/gin"
+
+	_ "services/user-service/main/docs"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @title				User API
+// @version				2.0
+// @description			API built with Gin
+// @host				localhost:8081
+// @BasePath			/api/v2
 func main() {
 	// log init
 	logHandler := slog.NewJSONHandler(os.Stdout, nil)
@@ -44,16 +54,27 @@ func main() {
 	user.RegisterUserServiceServer(grpcServer, &internal.UserGrpcHandler{
 		Svc: hdl.Svc,
 	})
+	slog.Info("gRPC Init success", "addr", listen.Addr().String(), "info", grpcServer.GetServiceInfo())
+
+	// Run gRPC by go Routine(Async)
+	common.RunGrpcWithGoRoutine(listen, grpcServer)
 	slog.Info("User gRPC Server is ready")
-	if err := grpcServer.Serve(listen); err != nil {
-		slog.Error("faild to serve gRPC : ", "Error", err)
-	}
 
 	// Server Init
 	port := os.Getenv("SERVER_PORT")
 	if port == "" {
 		port = ":8080"
 	}
+	slog.Info("Check Environment Variable and port : ", "SERVER_PORT", port)
+
+	// Swagger UI
+	slog.Info("Register Swagger Handler")
+	r.GET("/swagger/*any", func(c *gin.Context) {
+		slog.Debug("Swagger page requested", "url", c.Request.URL.String())
+		c.Next()
+	}, ginSwagger.WrapHandler(swaggerFiles.Handler))
+	slog.Info("OpenAPI Docs Opened!")
+
+	slog.Info("User Service is ready")
 	r.Run(port)
-	slog.Info("User Server is ready")
 }
