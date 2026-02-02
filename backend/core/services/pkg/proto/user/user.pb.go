@@ -26,9 +26,9 @@ type UserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	PasswordHash  string                 `protobuf:"bytes,3,opt,name=passwordHash,proto3" json:"passwordHash,omitempty"`
+	PasswordHash  string                 `protobuf:"bytes,3,opt,name=password_hash,json=passwordHash,proto3" json:"password_hash,omitempty"`
 	Bio           string                 `protobuf:"bytes,4,opt,name=bio,proto3" json:"bio,omitempty"`
-	AvatarUrl     string                 `protobuf:"bytes,5,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty"`
+	AvatarUrl     string                 `protobuf:"bytes,5,opt,name=avatar_url,json=avatarUrl,proto3" json:"avatar_url,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -103,10 +103,10 @@ type UserResponse struct {
 	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
 	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	PasswordHash  string                 `protobuf:"bytes,4,opt,name=passwordHash,proto3" json:"passwordHash,omitempty"`
+	PasswordHash  string                 `protobuf:"bytes,4,opt,name=password_hash,json=passwordHash,proto3" json:"password_hash,omitempty"`
 	Bio           string                 `protobuf:"bytes,5,opt,name=bio,proto3" json:"bio,omitempty"`
-	AvatarUrl     string                 `protobuf:"bytes,6,opt,name=avatarUrl,proto3" json:"avatarUrl,omitempty"`
-	CreatedAt     string                 `protobuf:"bytes,7,opt,name=createdAt,proto3" json:"createdAt,omitempty"`
+	AvatarUrl     string                 `protobuf:"bytes,6,opt,name=avatar_url,json=avatarUrl,proto3" json:"avatar_url,omitempty"`
+	CreatedAt     string                 `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -282,29 +282,32 @@ var File_pkg_proto_user_user_proto protoreflect.FileDescriptor
 
 const file_pkg_proto_user_user_proto_rawDesc = "" +
 	"\n" +
-	"\x19pkg/proto/user/user.proto\x12\x04user\"\x93\x01\n" +
+	"\x19pkg/proto/user/user.proto\x12\x04user\"\x95\x01\n" +
 	"\vUserRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x12\"\n" +
-	"\fpasswordHash\x18\x03 \x01(\tR\fpasswordHash\x12\x10\n" +
-	"\x03bio\x18\x04 \x01(\tR\x03bio\x12\x1c\n" +
-	"\tavatarUrl\x18\x05 \x01(\tR\tavatarUrl\"\xc2\x01\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
+	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHash\x12\x10\n" +
+	"\x03bio\x18\x04 \x01(\tR\x03bio\x12\x1d\n" +
+	"\n" +
+	"avatar_url\x18\x05 \x01(\tR\tavatarUrl\"\xc5\x01\n" +
 	"\fUserResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\x12\"\n" +
-	"\fpasswordHash\x18\x04 \x01(\tR\fpasswordHash\x12\x10\n" +
-	"\x03bio\x18\x05 \x01(\tR\x03bio\x12\x1c\n" +
-	"\tavatarUrl\x18\x06 \x01(\tR\tavatarUrl\x12\x1c\n" +
-	"\tcreatedAt\x18\a \x01(\tR\tcreatedAt\"!\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12#\n" +
+	"\rpassword_hash\x18\x04 \x01(\tR\fpasswordHash\x12\x10\n" +
+	"\x03bio\x18\x05 \x01(\tR\x03bio\x12\x1d\n" +
+	"\n" +
+	"avatar_url\x18\x06 \x01(\tR\tavatarUrl\x12\x1d\n" +
+	"\n" +
+	"created_at\x18\a \x01(\tR\tcreatedAt\"!\n" +
 	"\x0fUserRequestById\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\".\n" +
 	"\x12DeleteUserResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xec\x01\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xf0\x01\n" +
 	"\vUserService\x123\n" +
 	"\n" +
-	"CreateUser\x12\x11.user.UserRequest\x1a\x12.user.UserResponse\x124\n" +
-	"\aGetUser\x12\x15.user.UserRequestById\x1a\x12.user.UserResponse\x123\n" +
+	"CreateUser\x12\x11.user.UserRequest\x1a\x12.user.UserResponse\x128\n" +
+	"\vGetUserByID\x12\x15.user.UserRequestById\x1a\x12.user.UserResponse\x123\n" +
 	"\n" +
 	"UpdateUser\x12\x11.user.UserRequest\x1a\x12.user.UserResponse\x12=\n" +
 	"\n" +
@@ -331,11 +334,11 @@ var file_pkg_proto_user_user_proto_goTypes = []any{
 }
 var file_pkg_proto_user_user_proto_depIdxs = []int32{
 	0, // 0: user.UserService.CreateUser:input_type -> user.UserRequest
-	2, // 1: user.UserService.GetUser:input_type -> user.UserRequestById
+	2, // 1: user.UserService.GetUserByID:input_type -> user.UserRequestById
 	0, // 2: user.UserService.UpdateUser:input_type -> user.UserRequest
 	2, // 3: user.UserService.DeleteUser:input_type -> user.UserRequestById
 	1, // 4: user.UserService.CreateUser:output_type -> user.UserResponse
-	1, // 5: user.UserService.GetUser:output_type -> user.UserResponse
+	1, // 5: user.UserService.GetUserByID:output_type -> user.UserResponse
 	1, // 6: user.UserService.UpdateUser:output_type -> user.UserResponse
 	3, // 7: user.UserService.DeleteUser:output_type -> user.DeleteUserResponse
 	4, // [4:8] is the sub-list for method output_type

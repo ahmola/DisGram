@@ -12,7 +12,7 @@ type PostRepository struct {
 
 func (r *PostRepository) FindAllImagesByPostID(postID uint) ([]*PostImage, error) {
 	var images []*PostImage
-	err := r.ImageRepo.DB.Where("post_id = ?", postID).Find(images).Error
+	err := r.ImageRepo.DB.Where("post_id = ?", postID).Find(&images).Error
 	return images, err
 }
 
@@ -23,6 +23,6 @@ func (r *PostRepository) DeleteAllImagesByPostID(postID uint) error {
 
 func (r *PostRepository) FindAllLikesByPostID(postID uint) ([]*Like, error) {
 	var likes []*Like
-	err := r.LikeRepo.DB.Where("post_id = ?", postID).Find(likes).Error
+	err := r.LikeRepo.DB.Where("post_id = ?", postID).Find(&likes).Error
 	return likes, err
 }

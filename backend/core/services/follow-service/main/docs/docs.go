@@ -14,7 +14,177 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/follows": {
+            "post": {
+                "description": "Follow specific User",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follows"
+                ],
+                "summary": "Create Follow",
+                "parameters": [
+                    {
+                        "description": "Follow DTO",
+                        "name": "follow",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal.FollowRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/internal.FollowResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Wrong Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/follows/followees": {
+            "get": {
+                "description": "Get All the Users' ID followed by specific User with User ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follows"
+                ],
+                "summary": "List of Users followed by specific User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Followees' ID",
+                        "name": "follower_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/follows/followers": {
+            "get": {
+                "description": "Get all the Users' ID following specific User",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follows"
+                ],
+                "summary": "List of Users following specific User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id of user who are followed",
+                        "name": "followee_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/follows/{id}": {
+            "delete": {
+                "description": "Delete the Follow Relationship",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "follows"
+                ],
+                "summary": "Cancel Follow",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Follow ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "isDone: true",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "internal.FollowRequest": {
+            "type": "object",
+            "properties": {
+                "followeeID": {
+                    "type": "integer"
+                },
+                "followerID": {
+                    "type": "integer"
+                }
+            }
+        },
+        "internal.FollowResponse": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "followeeID": {
+                    "type": "integer"
+                },
+                "followerID": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it

@@ -13,7 +13,7 @@ func DBConfig(serviceName string) *gorm.DB {
 	// Configure Destination
 	dsn := os.Getenv("DB_DSN")
 	if dsn == "" {
-		dsn = "root:1234@tcp(127.0.0.1:3306)/" + serviceName + "?charset=utf8mb4&parseTime=True&loc=Local"
+		dsn = "root:1234@tcp(127.0.0.1:3306)/" + serviceName + "?useUnicode=true&characterEncoding=utf8mb4&serverTimezone=UTC"
 	}
 	slog.Info("DB Destination is : " + dsn)
 

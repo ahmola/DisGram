@@ -1,9 +1,146 @@
 basePath: /api/v2
+definitions:
+  internal.UserRequest:
+    properties:
+      avatarUrl:
+        type: string
+      bio:
+        type: string
+      email:
+        type: string
+      passwordHash:
+        type: string
+      username:
+        type: string
+    type: object
+  internal.UserResponse:
+    properties:
+      avatarUrl:
+        type: string
+      bio:
+        type: string
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
 host: localhost:8081
 info:
   contact: {}
   description: API built with Gin
   title: User API
   version: "2.0"
-paths: {}
+paths:
+  /users:
+    get:
+      description: Read User by username
+      parameters:
+      - description: username
+        in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.UserResponse'
+      summary: Read Single User with Username
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Create a new User
+      parameters:
+      - description: User DTO
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/internal.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal.UserResponse'
+        "400":
+          description: Wrong Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Sign In
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update the User
+      parameters:
+      - description: User DTO
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/internal.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.UserResponse'
+      summary: Update User
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      description: Delete User by User ID
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'isDone: true'
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete User
+      tags:
+      - users
+    get:
+      description: Read specific user with User ID
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.UserResponse'
+      summary: Read Single User
+      tags:
+      - users
 swagger: "2.0"

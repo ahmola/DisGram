@@ -1,6 +1,10 @@
 package internal
 
-import "github.com/gin-gonic/gin"
+import (
+	"log/slog"
+
+	"github.com/gin-gonic/gin"
+)
 
 type PostHandler struct {
 	Svc *PostService
@@ -17,7 +21,7 @@ type PostHandler struct {
 // @Accept       json
 // @Produce      json
 // @Param        post  body      PostRequest  true  "PostDTO"
-// @Success      201   {object}  models.Post
+// @Success      201   {object}  Post
 // @Failure      400   {object}  map[string]string "Wrong Request"
 // @Router       /posts [post]
 func (hdl *PostHandler) CreatePost(c *gin.Context) {
@@ -43,10 +47,11 @@ func (hdl *PostHandler) CreatePost(c *gin.Context) {
 // @Tags         posts
 // @Produce      json
 // @Param        id   path      string  true  "Post ID"
-// @Success      200  {object}  models.Post
+// @Success      200  {object}  Post
 // @Router       /posts/{id} [get]
 func (hdl *PostHandler) GetPostById(c *gin.Context) {
 	postID := c.Param("id")
+	slog.Info("GetPostById called: ", "postId", postID)
 
 	res, err := hdl.Svc.GetPostById(postID)
 	if err != nil {
@@ -64,7 +69,7 @@ func (hdl *PostHandler) GetPostById(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        post  body      PostRequest  true  "Update Post"
-// @Success      200   {object}  models.Post
+// @Success      200   {object}  Post
 // @Router       /posts [put]
 func (hdl *PostHandler) UpdatePost(c *gin.Context) {
 	var req PostRequest
@@ -114,7 +119,7 @@ func (hdl *PostHandler) DeletePost(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        like  body      LikeRequest  true  "Like DTO"
-// @Success      201   {object}  models.LikeResponse
+// @Success      201   {object}  LikeResponse
 // @Router       /likes [post]
 func (hdl *PostHandler) CreateLike(c *gin.Context) {
 	var req LikeRequest
@@ -139,8 +144,8 @@ func (hdl *PostHandler) CreateLike(c *gin.Context) {
 // @Tags         likes
 // @Produce      json
 // @Param        postId  path      string  true  "post ID"
-// @Success      200     {array}   models.LikeResponse
-// @Router       /posts/{postId}/likes [get]
+// @Success      200     {array}   LikeResponse
+// @Router       /posts/likes/{postId} [get]
 func (hdl *PostHandler) GetAllLikesByPostID(c *gin.Context) {
 	postID := c.Param("postId")
 

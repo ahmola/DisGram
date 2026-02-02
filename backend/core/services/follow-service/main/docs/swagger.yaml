@@ -1,9 +1,119 @@
 basePath: /api/v2
+definitions:
+  internal.FollowRequest:
+    properties:
+      followeeID:
+        type: integer
+      followerID:
+        type: integer
+    type: object
+  internal.FollowResponse:
+    properties:
+      createdAt:
+        type: string
+      followeeID:
+        type: integer
+      followerID:
+        type: integer
+      id:
+        type: integer
+    type: object
 host: localhost:8082
 info:
   contact: {}
   description: API built with Gin
   title: Follow API
   version: "2.0"
-paths: {}
+paths:
+  /follows:
+    post:
+      consumes:
+      - application/json
+      description: Follow specific User
+      parameters:
+      - description: Follow DTO
+        in: body
+        name: follow
+        required: true
+        schema:
+          $ref: '#/definitions/internal.FollowRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal.FollowResponse'
+        "400":
+          description: Wrong Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Follow
+      tags:
+      - follows
+  /follows/{id}:
+    delete:
+      description: Delete the Follow Relationship
+      parameters:
+      - description: Follow ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'isDone: true'
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Cancel Follow
+      tags:
+      - follows
+  /follows/followees:
+    get:
+      description: Get All the Users' ID followed by specific User with User ID
+      parameters:
+      - description: Followees' ID
+        in: query
+        name: follower_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: integer
+            type: array
+      summary: List of Users followed by specific User
+      tags:
+      - follows
+  /follows/followers:
+    get:
+      description: Get all the Users' ID following specific User
+      parameters:
+      - description: id of user who are followed
+        in: query
+        name: followee_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: integer
+            type: array
+      summary: List of Users following specific User
+      tags:
+      - follows
 swagger: "2.0"

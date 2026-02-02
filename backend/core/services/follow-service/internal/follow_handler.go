@@ -15,7 +15,7 @@ type FollowHandler struct {
 // @Accept       json
 // @Produce      json
 // @Param        follow  body      FollowRequest  true  "Follow DTO"
-// @Success      201     {object}  models.FollowResponse
+// @Success      201     {object}  FollowResponse
 // @Failure      400     {object}  map[string]string "Wrong Request"
 // @Router       /follows [post]
 func (hdl *FollowHandler) CreateFollow(c *gin.Context) {

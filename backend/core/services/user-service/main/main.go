@@ -1,11 +1,15 @@
 package main
 
 import (
-	"log/slog"
+	"net"
 	"os"
-	"services/pkg/common"
+
+	"log/slog"
 	"services/pkg/proto/user"
 	"services/user-service/internal"
+
+	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
+	"google.golang.org/grpc"
 
 	"github.com/gin-gonic/gin"
 
@@ -50,14 +54,44 @@ func main() {
 	if grpcPort == "" {
 		grpcPort = ":9090"
 	}
-	listen, grpcServer := common.StartGrpcServer(grpcPort, "user")
+
+	// gRPC Server Init
+	slog.Info("Start Listening ", "user gRPC Server")
+	listen, err := net.Listen("tcp", grpcPort)
+	if err != nil {
+		slog.Error("failed to open tcp ", grpcPort, "Error", err)
+		os.Exit(1)
+	}
+	slog.Info("Listening: ", listen.Addr().String())
+
+	slog.Info("gRPC Server Init")
+	grpcServer := grpc.NewServer(
+		// protect server from shutting down grpc server by panic
+		grpc.ChainUnaryInterceptor(
+			grpc_recovery.UnaryServerInterceptor(),
+		),
+	)
+
 	user.RegisterUserServiceServer(grpcServer, &internal.UserGrpcHandler{
 		Svc: hdl.Svc,
 	})
 	slog.Info("gRPC Init success", "addr", listen.Addr().String())
 
 	// Run gRPC by go Routine(Async)
-	common.RunGrpcWithGoRoutine(listen, grpcServer)
+	go func() {
+		// executed when go routine is over
+		defer func() {
+			if r := recover(); r != nil {
+				slog.Error("gRPC go routine panicked and recovered", "error", r)
+			}
+		}()
+
+		if err := grpcServer.Serve(listen); err != nil {
+			slog.Error("faild to serve gRPC : ", "Error", err)
+			os.Exit(1)
+		}
+	}()
+
 	slog.Info("User gRPC Server is ready")
 
 	// Server Init
@@ -75,6 +109,7 @@ func main() {
 	}, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	slog.Info("OpenAPI Docs Opened!")
 
-	slog.Info("User Service is ready")
-	r.Run(port)
+	if err := r.Run(port); err != nil {
+		slog.Error("Gin Server failed to start", "error", err)
+	}
 }

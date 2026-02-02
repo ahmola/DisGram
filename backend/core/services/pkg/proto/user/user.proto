@@ -9,19 +9,19 @@ option go_package = "services/pkg/proto/user";
 message UserRequest {
     string username = 1;
     string email = 2;
-    string passwordHash = 3;
+    string password_hash = 3;
     string bio = 4;
-    string avatarUrl = 5;
+    string avatar_url = 5;
 }
 
 message UserResponse {
     uint32 id = 1;
     string username = 2;
     string email = 3;
-    string passwordHash = 4;
+    string password_hash = 4;
     string bio = 5;
-    string avatarUrl = 6;
-    string createdAt = 7;
+    string avatar_url = 6;
+    string created_at = 7;
 }
 
 message UserRequestById {
@@ -38,7 +38,7 @@ service UserService {
     rpc CreateUser (UserRequest) returns (UserResponse);
 
     // Read
-    rpc GetUser (UserRequestById) returns (UserResponse);
+    rpc GetUserByID (UserRequestById) returns (UserResponse);
 
     // Update
     rpc UpdateUser (UserRequest) returns (UserResponse);

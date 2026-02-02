@@ -1,9 +1,215 @@
 basePath: /api/v2
+definitions:
+  internal.LikeRequest:
+    properties:
+      postId:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  internal.LikeResponse:
+    properties:
+      Id:
+        type: integer
+      postId:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  internal.Post:
+    properties:
+      caption:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      updated_at:
+        type: string
+      userId:
+        type: integer
+    type: object
+  internal.PostImageRequest:
+    properties:
+      extension:
+        type: string
+      fileKey:
+        type: string
+      postId:
+        type: integer
+      seq:
+        type: integer
+      url:
+        type: string
+    type: object
+  internal.PostRequest:
+    properties:
+      caption:
+        type: string
+      postImage:
+        items:
+          $ref: '#/definitions/internal.PostImageRequest'
+        type: array
+      userId:
+        type: integer
+    type: object
 host: localhost:8083
 info:
   contact: {}
   description: API built with Gin
   title: Post API
   version: "2.0"
-paths: {}
+paths:
+  /likes:
+    post:
+      consumes:
+      - application/json
+      description: User add Like on the post. Cannot be duplicated
+      parameters:
+      - description: Like DTO
+        in: body
+        name: like
+        required: true
+        schema:
+          $ref: '#/definitions/internal.LikeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal.LikeResponse'
+      summary: Create Like
+      tags:
+      - likes
+  /likes/{id}:
+    delete:
+      description: Delete the Like of Post by Like ID
+      parameters:
+      - description: like ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Cancel Like
+      tags:
+      - likes
+  /posts:
+    post:
+      consumes:
+      - application/json
+      description: Create a new Post
+      parameters:
+      - description: PostDTO
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/internal.PostRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal.Post'
+        "400":
+          description: Wrong Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Post
+      tags:
+      - posts
+    put:
+      consumes:
+      - application/json
+      description: Update the post
+      parameters:
+      - description: Update Post
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/internal.PostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.Post'
+      summary: Update Post
+      tags:
+      - posts
+  /posts/{id}:
+    delete:
+      description: Delete the post, images of the post, likes of the post
+      parameters:
+      - description: 게시글 ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 성공 여부
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete Post
+      tags:
+      - posts
+    get:
+      description: Read Post and Images of the post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.Post'
+      summary: Read Post Info
+      tags:
+      - posts
+  /posts/likes/{postId}:
+    get:
+      description: Read all the likes of the specific post.
+      parameters:
+      - description: post ID
+        in: path
+        name: postId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal.LikeResponse'
+            type: array
+      summary: List of Likes
+      tags:
+      - likes
 swagger: "2.0"

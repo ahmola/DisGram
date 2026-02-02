@@ -2,12 +2,14 @@ package main
 
 import (
 	"log/slog"
+	"net"
 	"os"
-	"services/pkg/common"
 	"services/pkg/proto/post"
 	"services/post-service/internal"
 
 	"github.com/gin-gonic/gin"
+	grpc_recovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
+	"google.golang.org/grpc"
 
 	_ "services/post-service/main/docs"
 
@@ -43,7 +45,7 @@ func main() {
 		v2.PUT("/:id", hdl.UpdatePost)
 		v2.DELETE("/:id", hdl.DeletePost)
 
-		v2.GET("/:postId/likes", hdl.GetAllLikesByPostID)
+		v2.GET("/likes/:postId", hdl.GetAllLikesByPostID)
 		v2.POST("/likes", hdl.CreateLike)
 		v2.DELETE("/likes/:id", hdl.DeleteLike)
 	}
@@ -53,17 +55,46 @@ func main() {
 	if grpcPort == "" {
 		grpcPort = ":9090"
 	}
-	listen, grpcServer := common.StartGrpcServer(grpcPort, "post")
+
+	// gRPC Server Init
+	slog.Info("Start Listening ", "post gRPC Server")
+	listen, err := net.Listen("tcp", grpcPort)
+	if err != nil {
+		slog.Error("failed to open tcp ", grpcPort, "Error", err)
+		os.Exit(1)
+	}
+	slog.Info("Listening: ", listen.Addr().String())
+
+	slog.Info("gRPC Server Init")
+	grpcServer := grpc.NewServer(
+		// protect server from shutting down grpc server by panic
+		grpc.ChainUnaryInterceptor(
+			grpc_recovery.UnaryServerInterceptor(),
+		),
+	)
+
 	post.RegisterPostServiceServer(grpcServer, &internal.PostGrpcHandler{
 		Svc: hdl.Svc,
 	})
 	slog.Info("gRPC Init success", "addr", listen.Addr().String())
 
 	// Run gRPC by go Routine(Async)
-	common.RunGrpcWithGoRoutine(listen, grpcServer)
+	go func() {
+		// executed when go routine is over
+		defer func() {
+			if r := recover(); r != nil {
+				slog.Error("gRPC go routine panicked and recovered", "error", r)
+			}
+		}()
+
+		if err := grpcServer.Serve(listen); err != nil {
+			slog.Error("faild to serve gRPC : ", "Error", err)
+			os.Exit(1)
+		}
+	}()
 	slog.Info("Post gRPC Server is ready")
 
-	// Server Init
+	// HTTP Server Init
 	port := os.Getenv("SERVER_PORT")
 	if port == "" {
 		port = ":8080"

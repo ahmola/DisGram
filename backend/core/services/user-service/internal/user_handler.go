@@ -1,6 +1,8 @@
 package internal
 
 import (
+	"log/slog"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,7 +21,7 @@ type UserHandler struct {
 // @Accept       json
 // @Produce      json
 // @Param        user  body      UserRequest  true  "User DTO"
-// @Success      201   {object}  models.UserResponse
+// @Success      201   {object}  UserResponse
 // @Failure      400   {object}  map[string]string "Wrong Request"
 // @Router       /users [post]
 func (hdl *UserHandler) CreateUser(c *gin.Context) {
@@ -45,17 +47,18 @@ func (hdl *UserHandler) CreateUser(c *gin.Context) {
 // @Tags         users
 // @Produce      json
 // @Param        id   path      string  true  "User ID"
-// @Success      200  {object}  models.UserResponse
+// @Success      200  {object}  UserResponse
 // @Router       /users/{id} [get]
 func (hdl *UserHandler) GetUserByID(c *gin.Context) {
 	userID := c.Param("id")
+	slog.Info("userId : ", userID)
 
 	user, err := hdl.Svc.GetUserByID(userID)
 	if err != nil {
 		c.Error(err)
 		return
 	}
-
+	slog.Info("User : ", user.Username)
 	c.JSON(200, user)
 }
 
@@ -65,7 +68,7 @@ func (hdl *UserHandler) GetUserByID(c *gin.Context) {
 // @Tags         users
 // @Produce      json
 // @Param        username  query     string  true  "username"
-// @Success      200       {object}  models.UserResponse
+// @Success      200       {object}  UserResponse
 // @Router       /users [get]
 func (hdl *UserHandler) GetUserByUsername(c *gin.Context) {
 	username := c.Query("username")
@@ -86,7 +89,7 @@ func (hdl *UserHandler) GetUserByUsername(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        user  body      UserRequest  true  "User DTO"
-// @Success      200   {object}  models.UserResponse
+// @Success      200   {object}  UserResponse
 // @Router       /users [put]
 func (hdl *UserHandler) UpdateUser(c *gin.Context) {
 	var req UserRequest

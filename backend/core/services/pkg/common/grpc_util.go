@@ -9,6 +9,10 @@ import (
 	"google.golang.org/grpc"
 )
 
+/*
+* Deprecated. No longer be used
+ */
+
 func StartGrpcServer(port string, serviceName string) (net.Listener, *grpc.Server) {
 	// gRPC Server Init
 	slog.Info("Start Listening ", serviceName, " gRPC Server")

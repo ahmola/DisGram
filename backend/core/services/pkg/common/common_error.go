@@ -38,5 +38,6 @@ func LoggingMiddleware() gin.HandlerFunc {
 func CommitError(fileName, functionName, message string, err error) error {
 	// return nil, fmt.Errorf("CommentService.GetCommentsByID, "+
 	// 		"error occured during converting string to uint: %w", err)
+	slog.Error(message)
 	return fmt.Errorf("%s.%s, %s: %w", fileName, functionName, message, err)
 }

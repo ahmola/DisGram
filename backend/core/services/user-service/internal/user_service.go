@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"log/slog"
 	"services/pkg/common"
 )
 
@@ -39,6 +40,7 @@ func (svc *UserService) GetUserByID(userID string) (*UserResponse, error) {
 		return nil, common.CommitError(serviceName, functionName,
 			"erro occured during finding user by id", err)
 	}
+	slog.Info("User : ", user.Username)
 
 	return OriginToResponse(*user)
 }

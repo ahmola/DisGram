@@ -1,9 +1,158 @@
 basePath: /api/v2
+definitions:
+  internal.Comment:
+    properties:
+      content:
+        description: Content of Comment
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      postId:
+        description: Post ID
+        type: integer
+      updated_at:
+        type: string
+      userId:
+        description: User ID
+        type: integer
+    type: object
+  internal.CommentRequest:
+    properties:
+      content:
+        type: string
+      postID:
+        type: integer
+      userID:
+        type: integer
+    type: object
+  internal.CommentResponse:
+    properties:
+      content:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: integer
+      postID:
+        type: integer
+      userID:
+        type: integer
+    type: object
 host: localhost:8084
 info:
   contact: {}
   description: API built with Gin
   title: Comment API
   version: "2.0"
-paths: {}
+paths:
+  /comments:
+    get:
+      description: Gets all comments on a particular post by postID.
+      parameters:
+      - description: post ID
+        in: query
+        name: postID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/internal.Comment'
+            type: array
+      summary: Read the list of comments by post
+      tags:
+      - comments
+    post:
+      consumes:
+      - application/json
+      description: Create new comment
+      parameters:
+      - description: Comment DTO
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/internal.CommentRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/internal.CommentResponse'
+        "400":
+          description: 잘못된 요청
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Comment
+      tags:
+      - comments
+    put:
+      consumes:
+      - application/json
+      description: Modify the content of an existing comment
+      parameters:
+      - description: Comment DTO
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/internal.CommentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.Comment'
+      summary: Modify Comment
+      tags:
+      - comments
+  /comments/{id}:
+    delete:
+      description: Use the comment ID to delete a specific comment
+      parameters:
+      - description: Comment ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'isDone: true'
+          schema:
+            additionalProperties:
+              type: boolean
+            type: object
+      summary: Delete Comment
+      tags:
+      - comments
+    get:
+      description: Use the comment ID to query the details of a particular comment
+      parameters:
+      - description: 댓글 ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/internal.Comment'
+      summary: Read Single Comment
+      tags:
+      - comments
 swagger: "2.0"

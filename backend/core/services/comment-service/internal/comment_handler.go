@@ -15,7 +15,7 @@ type CommentHandler struct {
 // @Accept       json
 // @Produce      json
 // @Param        comment  body      CommentRequest  true  "Comment DTO"
-// @Success      201      {object}  models.CommentResponse
+// @Success      201      {object}  CommentResponse
 // @Failure      400      {object}  map[string]string "잘못된 요청"
 // @Router       /comments [post]
 func (hdl *CommentHandler) CreateComment(c *gin.Context) {
@@ -41,7 +41,7 @@ func (hdl *CommentHandler) CreateComment(c *gin.Context) {
 // @Tags         comments
 // @Produce      json
 // @Param        postID   query     string  true  "post ID"
-// @Success      200      {array}   models.Comment
+// @Success      200      {array}   Comment
 // @Router       /comments [get]
 func (hdl *CommentHandler) GetComments(c *gin.Context) {
 	postID := c.Query("postID")
@@ -61,7 +61,7 @@ func (hdl *CommentHandler) GetComments(c *gin.Context) {
 // @Tags         comments
 // @Produce      json
 // @Param        id   path      string  true  "댓글 ID"
-// @Success      200  {object}  models.Comment
+// @Success      200  {object}  Comment
 // @Router       /comments/{id} [get]
 func (hdl *CommentHandler) GetCommentByID(c *gin.Context) {
 	commentID := c.Param("id")
@@ -82,7 +82,7 @@ func (hdl *CommentHandler) GetCommentByID(c *gin.Context) {
 // @Accept       json
 // @Produce      json
 // @Param        comment  body      CommentRequest  true  "Comment DTO"
-// @Success      200      {object}  models.Comment
+// @Success      200      {object}  Comment
 // @Router       /comments [put]
 func (hdl *CommentHandler) UpdateComment(c *gin.Context) {
 	var req CommentRequest
