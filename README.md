@@ -1,5 +1,5 @@
-# Instagram-Clone
-Instagram Clone with Microservice Architecture
+# DisGram
+Discord & Instagram Benchmarked Gaming Web SNS with Microservice Architecture
 
 ## Workflow
 
